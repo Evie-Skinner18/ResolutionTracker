@@ -7,9 +7,13 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.light-green {
+  color: #75d3d1;
+}
+
 /* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+.light-yellow {
+  color: #ff0;
 }
 
 .btn-primary {
