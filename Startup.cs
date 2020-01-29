@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using dotenv.net;
+using dotenv.net.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,7 +26,19 @@ namespace ResolutionTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // set up dotenv to grab the env vars
+            DotEnv.Config();
+            services.AddEnv(builder => {
+                builder
+                .AddEnvFile("./.env")
+                .AddThrowOnError(false)
+                .AddEncoding(Encoding.ASCII);
+            });
+            var connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
+
             services.AddControllersWithViews();
+            services.AddEntityFrameworkNpgsql();
+            services.
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

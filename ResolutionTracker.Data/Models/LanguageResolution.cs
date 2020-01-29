@@ -1,6 +1,6 @@
 ﻿using ResolutionTracker.Data.Common;
 
-namespace ResolutionTracker.Data
+namespace ResolutionTracker.Data.Models
 {
     public class LanguageResolution : Resolution
     {
