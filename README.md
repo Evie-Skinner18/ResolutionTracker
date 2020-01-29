@@ -11,3 +11,4 @@ An ASP.Net Core MVC application to help me track my new year's resolutions
 - CSS
 - JavaScript
 - Boostrap
+- [Inconsolata font](https://fonts.google.com/specimen/Inconsolata) by Ralph Levien
