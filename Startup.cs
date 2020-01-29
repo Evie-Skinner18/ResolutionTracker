@@ -8,9 +8,11 @@ using dotenv.net.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ResolutionTracker.Data;
 
 namespace ResolutionTracker
 {
@@ -37,8 +39,15 @@ namespace ResolutionTracker
             var connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
 
             services.AddControllersWithViews();
+
+            // set up Postgres
             services.AddEntityFrameworkNpgsql();
-            services.
+            services.AddDbContext<ResolutionTrackerContext>(options => options.UseNpgsql(connectionString));
+
+            // add any new services in the service layer here
+            services.AddSingleton(Configuration);
+            // this service will get injected into the relevant controller when it asks for the IResolutionService interface
+            //services.Add
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
