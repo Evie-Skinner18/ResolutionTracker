@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ResolutionTracker.Data;
 using ResolutionTracker.Data.Common;
@@ -15,19 +16,33 @@ namespace ResolutionTracker.Services
             _resolutionTrackerContext = resolutionTrackerContext;
         }
 
-        public void AddResolution(Resolution newResolution)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Resolution> GetAllResolutions()
         {
-            throw new NotImplementedException();
+            return _resolutionTrackerContext.Resolutions;
         }
+
+        public Resolution GetResolutionById(int id)
+        {
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault();
+        }
+
+
+        public void AddResolution(Resolution newResolution)
+        {
+            _resolutionTrackerContext.Add(newResolution);
+            _resolutionTrackerContext.SaveChanges();
+        }
+
+      
 
         public DateTime GetDateCompleted(int id)
         {
-            throw new NotImplementedException();
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault()
+                .DateCompleted;
         }
 
         public DateTime GetDeadline(int id)
@@ -41,11 +56,6 @@ namespace ResolutionTracker.Services
         }
 
         public int GetPercentageComplete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Resolution GetResolutionById(int id)
         {
             throw new NotImplementedException();
         }
