@@ -17,5 +17,7 @@ namespace ResolutionTracker.Data.Common
         public DateTime Deadline { get; set; }
 
         public DateTime DateCompleted { get; set; }
+
+        public int PercentageCompleted { get; set; }
     }
 }
