@@ -88,12 +88,21 @@ namespace ResolutionTracker.Services
 
         public string GetInstrument(int id)
         {
-            throw new NotImplementedException();
+            var musicResolutions = _resolutionTrackerContext.MusicResolutions;
+            var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
+
+            return isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().Instrument
+                : "Looks like that's not a music resolution soz!";
+
         }
 
         public string GetHealthArea(int id)
         {
-            throw new NotImplementedException();
+            var healthResolutions = _resolutionTrackerContext.HealthResolutions;
+            var isHealthResolution = _resolutionTrackerContext.Resolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id)).Any();
+
+            return isHealthResolution ? healthResolutions.Where(h => h.Id.Equals(id)).FirstOrDefault().HealthArea
+                : "Looks like that's not a health resolution sozbeef!";
         }
 
         public string GetTechnology(int id)
