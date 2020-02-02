@@ -16,7 +16,7 @@ namespace ResolutionTracker.Tests
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            Assert.That("Hello".Equals("Hello"));
         }
     }
 }

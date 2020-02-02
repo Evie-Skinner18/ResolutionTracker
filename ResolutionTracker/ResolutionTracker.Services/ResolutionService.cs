@@ -28,14 +28,11 @@ namespace ResolutionTracker.Services
                 .FirstOrDefault();
         }
 
-
         public void AddResolution(Resolution newResolution)
         {
             _resolutionTrackerContext.Add(newResolution);
             _resolutionTrackerContext.SaveChanges();
         }
-
-      
 
         public DateTime GetDateCompleted(int id)
         {
@@ -47,7 +44,10 @@ namespace ResolutionTracker.Services
 
         public DateTime GetDeadline(int id)
         {
-            throw new NotImplementedException();
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault()
+                .Deadline;
         }
 
         public string GetDescription(int id)
@@ -61,6 +61,37 @@ namespace ResolutionTracker.Services
         }
 
         public string GetTitle(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        // type-specific methods for different resolutions
+        public string GetMusicGenre(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetInstrument(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetHealthArea(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetTechnology(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetLanguage(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetSkill(int id)
         {
             throw new NotImplementedException();
         }
