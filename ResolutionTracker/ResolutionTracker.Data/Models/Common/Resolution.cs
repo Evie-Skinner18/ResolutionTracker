@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ResolutionTracker.Data.Common
+namespace ResolutionTracker.Data.Models.Common
 {
     public class Resolution
     {

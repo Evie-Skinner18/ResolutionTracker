@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ResolutionTracker.Data.Common
+namespace ResolutionTracker.Data.Models.Common
 {
     // to-do: add methods for more specific implementations. E.g GetMusicGenre()
     public interface IResolutionService
