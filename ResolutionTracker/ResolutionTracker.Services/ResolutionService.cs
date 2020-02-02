@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ResolutionTracker.Data;
-using ResolutionTracker.Data.Common;
+using ResolutionTracker.Data.Models.Common;
 
 namespace ResolutionTracker.Services
 {
