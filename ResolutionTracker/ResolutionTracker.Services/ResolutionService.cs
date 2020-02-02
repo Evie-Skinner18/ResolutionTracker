@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ResolutionTracker.Data;
+using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
 
 namespace ResolutionTracker.Services
@@ -52,23 +53,37 @@ namespace ResolutionTracker.Services
 
         public string GetDescription(int id)
         {
-            throw new NotImplementedException();
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault()
+                .Description;
         }
 
+        // you can add the % sign within the HTML as a template
         public int GetPercentageComplete(int id)
         {
-            throw new NotImplementedException();
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault()
+                .PercentageCompleted;
         }
 
         public string GetTitle(int id)
         {
-            throw new NotImplementedException();
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault()
+                .Title;
         }
 
         // type-specific methods for different resolutions
         public string GetMusicGenre(int id)
         {
-            throw new NotImplementedException();
+            var musicResolutions = _resolutionTrackerContext.MusicResolutions;
+            var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
+
+            return isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().MusicGenre
+                : "Couldn't find a music resolution soz!";
         }
 
         public string GetInstrument(int id)
