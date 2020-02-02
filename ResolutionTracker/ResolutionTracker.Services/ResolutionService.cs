@@ -107,17 +107,29 @@ namespace ResolutionTracker.Services
 
         public string GetTechnology(int id)
         {
-            throw new NotImplementedException();
+            var codingResolutions = _resolutionTrackerContext.CodingResolutions;
+            var isCodingResolution = _resolutionTrackerContext.Resolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id)).Any();
+
+            return isCodingResolution ? codingResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Technology
+                : "I don't think that's a coding resolution sozzer";
         }
 
         public string GetLanguage(int id)
         {
-            throw new NotImplementedException();
+            var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
+            var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
+
+            return isLanguageResolution ? languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault().Language
+                : "Il semble que ce ne soit pas une résolution sur les langues...";
         }
 
         public string GetSkill(int id)
         {
-            throw new NotImplementedException();
+            var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
+            var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
+
+            return isLanguageResolution ? languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault().Skill
+                : "Il semble que ce ne soit pas une résolution sur les langues...";
         }
     }
 }
