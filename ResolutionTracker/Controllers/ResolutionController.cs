@@ -26,11 +26,15 @@ namespace ResolutionTracker.Controllers
                 {
                     ResolutionTitle = r.Title,
                     ResolutionDescription = r.Description,
-                    ResolutionDeadline = r.Deadline
+                    ResolutionDeadline = r.Deadline.ToShortDateString(),
+                    ResolutionType = _resolutionService.GetResolutionType(r.Id)
                 });
 
-            // then we pass this list of view objects to the view
-            return View();
+            // put his list of view objects inside an instance of ResolutionIndexModel
+            var resolutionIndexObject = new ResolutionIndexModel() { Resolutions = allResolutionViewObjects };
+
+            // then we pass this ResolutionIndexModel to the view
+            return View(resolutionIndexObject);
         }
     }
 }

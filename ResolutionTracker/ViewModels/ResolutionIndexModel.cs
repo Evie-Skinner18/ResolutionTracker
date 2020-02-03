@@ -4,6 +4,6 @@ namespace ResolutionTracker.ViewModels
 {
     public class ResolutionIndexModel
     {
-        public IEnumerable<ResolutionIndexListingModel> ResolutionIndexListingModels { get; set; }
+        public IEnumerable<ResolutionIndexListingModel> Resolutions { get; set; }
     }
 }
