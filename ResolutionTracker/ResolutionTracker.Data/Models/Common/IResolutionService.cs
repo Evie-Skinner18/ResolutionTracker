@@ -15,6 +15,7 @@ namespace ResolutionTracker.Data.Models.Common
         DateTime GetDeadline(int id);
         DateTime GetDateCompleted(int id);
         int GetPercentageComplete(int id);
+        string GetResolutionType(int id);
 
         // music details
         string GetMusicGenre(int id);
