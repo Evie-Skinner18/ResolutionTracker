@@ -3,8 +3,10 @@ namespace ResolutionTracker.ViewModels
 {
     public class ResolutionIndexListingModel
     {
-        public ResolutionIndexListingModel()
-        {
-        }
+        public string ResolutionTitle { get; set; }
+
+        public string ResolutionDescription { get; set; }
+
+        public string ResolutionDeadline { get; set; }
     }
 }
