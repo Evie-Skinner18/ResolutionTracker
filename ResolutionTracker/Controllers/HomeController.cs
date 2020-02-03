@@ -21,7 +21,5 @@ namespace ResolutionTracker.Controllers
         {
             return View();
         }
-
-      
     }
 }
