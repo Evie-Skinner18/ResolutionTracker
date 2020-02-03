@@ -61,6 +61,11 @@ namespace ResolutionTracker.Tests
             throw new NotImplementedException();
         }
 
+        public string GetResolutionType(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GetSkill(int id)
         {
             throw new NotImplementedException();
