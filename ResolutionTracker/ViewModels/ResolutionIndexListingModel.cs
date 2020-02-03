@@ -1,5 +1,4 @@
-﻿using System;
-namespace ResolutionTracker.ViewModels
+﻿namespace ResolutionTracker.ViewModels
 {
     public class ResolutionIndexListingModel
     {
