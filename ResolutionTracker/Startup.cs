@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ResolutionTracker.Data;
+using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Services;
 
 namespace ResolutionTracker
 {
@@ -47,7 +49,8 @@ namespace ResolutionTracker
             // add any new services in the service layer here
             services.AddSingleton(Configuration);
             // this service will get injected into the relevant controller when it asks for the IResolutionService interface
-            //services.Add
+            services.AddScoped<IResolutionService, ResolutionService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
