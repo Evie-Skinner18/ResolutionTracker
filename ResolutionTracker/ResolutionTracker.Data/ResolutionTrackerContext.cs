@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ResolutionTracker.Data.Common;
+using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.Data.Models;
 
 namespace ResolutionTracker.Data

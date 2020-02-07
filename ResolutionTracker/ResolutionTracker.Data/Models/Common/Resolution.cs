@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ResolutionTracker.Data.Common
+namespace ResolutionTracker.Data.Models.Common
 {
     public class Resolution
     {
@@ -12,6 +12,8 @@ namespace ResolutionTracker.Data.Common
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        //public string ImageUrl { get; set; }
 
         [Required]
         public DateTime Deadline { get; set; }

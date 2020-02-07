@@ -1,4 +1,4 @@
-﻿using ResolutionTracker.Data.Common;
+﻿using ResolutionTracker.Data.Models.Common;
 
 namespace ResolutionTracker.Data.Models
 {
