@@ -36,10 +36,28 @@ namespace ResolutionTracker.Controllers
         }
 
         // SHOW route
-        //public
+        public IActionResult Detail(int id)
+        {
+            var currentResolution = _resolutionService.GetResolutionById(id);
 
-        //ResolutionDescription = r.Description,
-        //            ResolutionDeadline = r.Deadline.ToShortDateString(),
-        //            ResolutionType = _resolutionService.GetResolutionType(r.Id)
+            var resolutionDetailObject = new ResolutionDetailModel()
+            {
+                ResolutionId = currentResolution.Id.ToString(),
+                ResolutionTitle = currentResolution.Title,
+                ResolutionDescription = currentResolution.Description,
+                ResolutionDeadline = currentResolution.Deadline.ToShortDateString(),
+                ResolutionType = _resolutionService.GetResolutionType(id),
+                PercentageCompletion = currentResolution.PercentageCompleted.ToString(),
+                DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
+                MusicGenre = _resolutionService.GetMusicGenre(id),
+                MusicalInstrument = _resolutionService.GetInstrument(id),
+                HealthArea = _resolutionService.GetHealthArea(id),
+                CodingTechnology = _resolutionService.GetTechnology(id),
+                Language = _resolutionService.GetLanguage(id),
+                LanguageSkill = _resolutionService.GetSkill(id)
+            };
+
+            return View(resolutionDetailObject);
+        }
     }
 }
