@@ -24,6 +24,7 @@ namespace ResolutionTracker.Controllers
             var allResolutionViewObjects = allResolutions
                 .Select(r => new ResolutionIndexListingModel()
                 {
+                    ResolutionId = r.Id.ToString(),
                     ResolutionTitle = r.Title,
                     ResolutionDescription = r.Description,
                     ResolutionDeadline = r.Deadline.ToShortDateString(),

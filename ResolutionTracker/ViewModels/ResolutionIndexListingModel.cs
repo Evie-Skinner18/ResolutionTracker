@@ -2,6 +2,8 @@
 {
     public class ResolutionIndexListingModel
     {
+        public string ResolutionId { get; set; }
+
         public string ResolutionTitle { get; set; }
 
         public string ResolutionDescription { get; set; }

@@ -3,3 +3,23 @@
 @{
     ViewData["Title"] = "All Resolutions";
 }
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2>Welcome to the Library Catalogue!</h2>
+        <h3>The date is @DateTime.Now</h3>
+    </div>
+</div>
+<div class="row text-center">
+    @foreach (var resolution in Model.Resolutions)
+    {
+        <div class="col-md-3 col-sm-6">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4>@item.Title</h4>
+                    <a asp-controller="Catalogue" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-primary">More Info</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
