@@ -14,6 +14,8 @@
 
         public string PercentageCompletion { get; set; }
 
+        public string PercentageLeft { get; set; }
+
         public string DateCompleted { get; set; }
 
         public string MusicGenre { get; set; }

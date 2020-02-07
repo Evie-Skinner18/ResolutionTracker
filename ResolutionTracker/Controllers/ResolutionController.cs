@@ -48,6 +48,7 @@ namespace ResolutionTracker.Controllers
                 ResolutionDeadline = currentResolution.Deadline.ToShortDateString(),
                 ResolutionType = _resolutionService.GetResolutionType(id),
                 PercentageCompletion = currentResolution.PercentageCompleted.ToString(),
+                PercentageLeft = (100 - currentResolution.PercentageCompleted).ToString(),
                 DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
                 MusicGenre = _resolutionService.GetMusicGenre(id),
                 MusicalInstrument = _resolutionService.GetInstrument(id),

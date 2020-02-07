@@ -82,3 +82,7 @@ body {
 .resolution-square {
     flex-wrap: wrap;
 }
+
+.main-details {
+    color: #ff6c6c;
+}
