@@ -52,10 +52,10 @@ namespace ResolutionTracker.Controllers
                 DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
                 MusicGenre = _resolutionService.GetMusicGenre(id),
                 MusicalInstrument = _resolutionService.GetInstrument(id),
-                HealthArea = _resolutionService.GetHealthArea(id),
+                HealthArea = _resolutionService.GetHealthArea(id).ToLower(),
                 CodingTechnology = _resolutionService.GetTechnology(id),
                 Language = _resolutionService.GetLanguage(id),
-                LanguageSkill = _resolutionService.GetSkill(id)
+                LanguageSkill = _resolutionService.GetSkill(id).ToLower()
             };
 
             return View(resolutionDetailObject);

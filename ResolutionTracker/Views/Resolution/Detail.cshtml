@@ -11,6 +11,25 @@
 <hr />
 <div class="main-details">
     <p>@Model.ResolutionDescription</p>
-    <p>@Model.ResolutionType</p>
+    <p>Category: @Model.ResolutionType</p>
+    @{
+        if (Model.ResolutionType.Equals("Music"))
+        {
+            <p>Instrument: @Model.MusicalInstrument</p>
+            <p>Genre: @Model.MusicGenre</p>
+        }
+        else if(Model.ResolutionType.Equals("Health"))
+        {
+            <p>Keep your @Model.HealthArea healthy!</p>
+        }
+        else if (Model.ResolutionType.Equals("Coding"))
+        {
+            <p>This will help you practise @Model.CodingTechnology</p>
+        }
+        else
+        {
+            <p>What a lush way to practise your @Model.Language @Model.LanguageSkill!</p>
+        }
+    }
     <p>Percentage left to complete by @Model.ResolutionDeadline: @Model.PercentageLeft%</p>
 </div>
