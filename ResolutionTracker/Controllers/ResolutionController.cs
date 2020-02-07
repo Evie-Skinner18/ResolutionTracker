@@ -25,10 +25,7 @@ namespace ResolutionTracker.Controllers
                 .Select(r => new ResolutionIndexListingModel()
                 {
                     ResolutionId = r.Id.ToString(),
-                    ResolutionTitle = r.Title,
-                    ResolutionDescription = r.Description,
-                    ResolutionDeadline = r.Deadline.ToShortDateString(),
-                    ResolutionType = _resolutionService.GetResolutionType(r.Id)
+                    ResolutionTitle = r.Title
                 });
 
             // put his list of view objects inside an instance of ResolutionIndexModel
@@ -37,5 +34,12 @@ namespace ResolutionTracker.Controllers
             // then we pass this ResolutionIndexModel to the view
             return View(resolutionIndexObject);
         }
+
+        // SHOW route
+        //public
+
+        //ResolutionDescription = r.Description,
+        //            ResolutionDeadline = r.Deadline.ToShortDateString(),
+        //            ResolutionType = _resolutionService.GetResolutionType(r.Id)
     }
 }

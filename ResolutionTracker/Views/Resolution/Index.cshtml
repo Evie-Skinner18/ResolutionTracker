@@ -14,9 +14,9 @@
     @foreach (var resolution in Model.Resolutions)
     {
         <div class="col-md-3 col-sm-6">
-            <div class="thumbnail">
+            <div class="thumbnail resolution-square">
                 <div class="caption">
-                    <h4>@resolution.ResolutionTitle</h4>
+                    <h4 class="light-yellow">@resolution.ResolutionTitle</h4>
                     <a asp-controller="Catalogue" asp-action="Detail" asp-route-id="@resolution.ResolutionId" class="btn btn-primary">More Info</a>
                 </div>
             </div>
