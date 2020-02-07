@@ -4,11 +4,11 @@
     ViewData["Title"] = $"{Model.ResolutionTitle}";
 }
 
-<h1>@Model.ResolutionTitle</h1>
+<h1 class="light-green">@Model.ResolutionTitle</h1>
 <div class="progress">
     <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: @Model.PercentageCompletion%" aria-valuenow="{@Model.PercentageCompletion}" aria-valuemin="0" aria-valuemax="100">@Model.PercentageCompletion%</div>
 </div>
-<hr />
+<hr class="white-background"/>
 <div class="main-details">
     <p>@Model.ResolutionDescription</p>
     <p>Category: @Model.ResolutionType</p>
@@ -33,3 +33,4 @@
     }
     <p>Percentage left to complete by @Model.ResolutionDeadline: @Model.PercentageLeft%</p>
 </div>
+<a class="btn btn-lg btn-info" asp-controller="Resolution" asp-action="Index">Back to all resolutions</a>

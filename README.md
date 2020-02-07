@@ -14,4 +14,4 @@ An ASP.Net Core MVC application to help me track my new year's resolutions
 - [Inconsolata font](https://fonts.google.com/specimen/Inconsolata) by Ralph Levien
 
 
-More features: enable text/email notifications or reminders
+More features: enable text/email notifications or reminders. Make separate service in service layer for this

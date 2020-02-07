@@ -60,5 +60,10 @@ namespace ResolutionTracker.Controllers
 
             return View(resolutionDetailObject);
         }
+
+        // NEW route for adding new resolution
+
+
+        // update and delete routes
     }
 }
