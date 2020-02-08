@@ -72,9 +72,12 @@ namespace ResolutionTracker.Controllers
         //   POST (how to protect against over posting attack?)
         // also make sure you sanitise the user inputs
         // this method is far too long
-        public ActionResult Create(ResolutionCreateModel newResolution)
+        public ActionResult CreateResolution(ResolutionCreateModel newResolution)
         {
 
+            // to-do: add calendar to date input
+            // chop off the % sign that the user will input
+            // make sure the object being passed is actually there. Right now it's NULL
             if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("music"))
             {
                 var musicResolutionForDatabase = new MusicResolution()
@@ -139,29 +142,7 @@ namespace ResolutionTracker.Controllers
             }
         }
 
-         
-        // NEW routes for adding new resolution
-        // not very DRY because I've got different types of resolutions inheriting from Resolution. So can't have one catch all Create() method
-        // different resolutions have different properties. Maybe inheriting was wrong way to go...
-        //public IActionResult CreateMusicResolution()
-        //{
-        //    var newMusicResolution = 
-        //}
-
-        //public IActionResult CreateHealthResolution()
-        //{
-
-        //}
-
-        //public IActionResult CreateCodingResolution()
-        //{
-
-        //}
-
-        //public IActionResult CreateLanguageResolution()
-        //{
-
-        //}
+        
 
         // update and delete routes
     }
