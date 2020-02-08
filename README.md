@@ -10,5 +10,8 @@ An ASP.Net Core MVC application to help me track my new year's resolutions
 - HTML
 - CSS
 - JavaScript
-- Boostrap
+- Bootstrap
 - [Inconsolata font](https://fonts.google.com/specimen/Inconsolata) by Ralph Levien
+
+
+More features: enable text/email notifications or reminders. Make separate service in service layer for this

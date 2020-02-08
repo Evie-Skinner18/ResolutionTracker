@@ -78,3 +78,19 @@ body {
 * {
     font-family: 'Inconsolata', monospace;
 }
+
+.resolution-square {
+    flex-wrap: wrap;
+}
+
+.main-details {
+    color: #ff6c6c;
+}
+
+.white-background {
+    background: white;
+}
+
+.title-section {
+    margin-bottom: 5%;
+}

@@ -1,0 +1,38 @@
+﻿@model ResolutionTracker.ViewModels.ResolutionDetailModel
+
+@{
+    ViewData["Title"] = $"{Model.ResolutionTitle}";
+}
+
+<h1 class="light-green">@Model.ResolutionTitle</h1>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: @Model.PercentageCompletion%" aria-valuenow="{@Model.PercentageCompletion}" aria-valuemin="0" aria-valuemax="100">@Model.PercentageCompletion%</div>
+</div>
+<hr class="white-background"/>
+<div class="main-details">
+    <p>@Model.ResolutionDescription</p>
+    <p>Category: @Model.ResolutionType</p>
+    @{
+        if (Model.ResolutionType.Equals("Music"))
+        {
+            <p>Instrument: @Model.MusicalInstrument</p>
+            <p>Genre: @Model.MusicGenre</p>
+        }
+        else if (Model.ResolutionType.Equals("Health"))
+        {
+            <p>Keep your @Model.HealthArea healthy!</p>
+        }
+        else if (Model.ResolutionType.Equals("Coding"))
+        {
+            <p>This will help you practise @Model.CodingTechnology</p>
+        }
+        else
+        {
+            <p>What a lush way to practise your @Model.Language @Model.LanguageSkill!</p>
+        }
+    }
+    <p>Percentage left to complete by @Model.ResolutionDeadline: @Model.PercentageLeft%</p>
+    <a asp-action="Edit" asp-route-id="@Model.ResolutionId">Edit</a>
+    <a asp-action="Delete" asp-route-id="@Model.ResolutionId">Delete</a>
+</div>
+<a class="btn btn-lg btn-info" asp-controller="Resolution" asp-action="Index">Back to all resolutions</a>

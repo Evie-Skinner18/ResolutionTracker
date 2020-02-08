@@ -25,10 +25,7 @@ namespace ResolutionTracker.Controllers
                 .Select(r => new ResolutionIndexListingModel()
                 {
                     ResolutionId = r.Id.ToString(),
-                    ResolutionTitle = r.Title,
-                    ResolutionDescription = r.Description,
-                    ResolutionDeadline = r.Deadline.ToShortDateString(),
-                    ResolutionType = _resolutionService.GetResolutionType(r.Id)
+                    ResolutionTitle = r.Title
                 });
 
             // put his list of view objects inside an instance of ResolutionIndexModel
@@ -37,5 +34,36 @@ namespace ResolutionTracker.Controllers
             // then we pass this ResolutionIndexModel to the view
             return View(resolutionIndexObject);
         }
+
+        // SHOW route
+        public IActionResult Detail(int id)
+        {
+            var currentResolution = _resolutionService.GetResolutionById(id);
+
+            var resolutionDetailObject = new ResolutionDetailModel()
+            {
+                ResolutionId = currentResolution.Id.ToString(),
+                ResolutionTitle = currentResolution.Title,
+                ResolutionDescription = currentResolution.Description,
+                ResolutionDeadline = currentResolution.Deadline.ToShortDateString(),
+                ResolutionType = _resolutionService.GetResolutionType(id),
+                PercentageCompletion = currentResolution.PercentageCompleted.ToString(),
+                PercentageLeft = (100 - currentResolution.PercentageCompleted).ToString(),
+                DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
+                MusicGenre = _resolutionService.GetMusicGenre(id),
+                MusicalInstrument = _resolutionService.GetInstrument(id),
+                HealthArea = _resolutionService.GetHealthArea(id).ToLower(),
+                CodingTechnology = _resolutionService.GetTechnology(id),
+                Language = _resolutionService.GetLanguage(id),
+                LanguageSkill = _resolutionService.GetSkill(id).ToLower()
+            };
+
+            return View(resolutionDetailObject);
+        }
+
+        // NEW route for adding new resolution
+
+
+        // update and delete routes
     }
 }
