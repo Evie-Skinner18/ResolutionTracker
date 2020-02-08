@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.ViewModels;
 
@@ -61,28 +63,105 @@ namespace ResolutionTracker.Controllers
             return View(resolutionDetailObject);
         }
 
+        // GET returns the default Create view which is the form
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //   POST (how to protect against over posting attack?)
+        // also make sure you sanitise the user inputs
+        // this method is far too long
+        public ActionResult Create(ResolutionCreateModel newResolution)
+        {
+
+            if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("music"))
+            {
+                var musicResolutionForDatabase = new MusicResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    MusicGenre = newResolution.MusicGenre,
+                    Instrument = newResolution.MusicalInstrument
+                };
+
+                _resolutionService.AddResolution(musicResolutionForDatabase);
+                return RedirectToAction("Index");        
+            }
+            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("health"))
+            {
+                var healthResolutionForDatabase = new HealthResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    HealthArea = newResolution.HealthArea
+                };
+
+                _resolutionService.AddResolution(healthResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
+            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("coding"))
+            {
+                var codingResolutionForDatabase = new CodingResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    Technology = newResolution.CodingTechnology
+                };
+
+                _resolutionService.AddResolution(codingResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
+            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("language"))
+            {
+                var languageResolutionForDatabase = new LanguageResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    Language = newResolution.Language,
+                    Skill = newResolution.LanguageSkill
+                };
+
+                _resolutionService.AddResolution(languageResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(newResolution);
+            }
+        }
+
+         
         // NEW routes for adding new resolution
         // not very DRY because I've got different types of resolutions inheriting from Resolution. So can't have one catch all Create() method
         // different resolutions have different properties. Maybe inheriting was wrong way to go...
-        public IActionResult CreateMusicResolution()
-        {
+        //public IActionResult CreateMusicResolution()
+        //{
+        //    var newMusicResolution = 
+        //}
 
-        }
+        //public IActionResult CreateHealthResolution()
+        //{
 
-        public IActionResult CreateHealthResolution()
-        {
+        //}
 
-        }
+        //public IActionResult CreateCodingResolution()
+        //{
 
-        public IActionResult CreateCodingResolution()
-        {
+        //}
 
-        }
+        //public IActionResult CreateLanguageResolution()
+        //{
 
-        public IActionResult CreateLanguageResolution()
-        {
-
-        }
+        //}
 
         // update and delete routes
     }
