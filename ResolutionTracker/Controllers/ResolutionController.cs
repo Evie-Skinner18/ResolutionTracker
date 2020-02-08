@@ -61,8 +61,28 @@ namespace ResolutionTracker.Controllers
             return View(resolutionDetailObject);
         }
 
-        // NEW route for adding new resolution
+        // NEW routes for adding new resolution
+        // not very DRY because I've got different types of resolutions inheriting from Resolution. So can't have one catch all Create() method
+        // different resolutions have different properties. Maybe inheriting was wrong way to go...
+        public IActionResult CreateMusicResolution()
+        {
 
+        }
+
+        public IActionResult CreateHealthResolution()
+        {
+
+        }
+
+        public IActionResult CreateCodingResolution()
+        {
+
+        }
+
+        public IActionResult CreateLanguageResolution()
+        {
+
+        }
 
         // update and delete routes
     }
