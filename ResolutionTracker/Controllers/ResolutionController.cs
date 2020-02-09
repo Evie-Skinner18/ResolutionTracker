@@ -17,6 +17,7 @@ namespace ResolutionTracker.Controllers
         }
 
         // root route
+        [HttpGet]
         public IActionResult Index()
         {
             // first step is to tell our service to grab all the resolutions from the DB
@@ -38,6 +39,7 @@ namespace ResolutionTracker.Controllers
         }
 
         // SHOW route
+        [HttpGet]
         public IActionResult Detail(int id)
         {
             var currentResolution = _resolutionService.GetResolutionById(id);
@@ -64,6 +66,7 @@ namespace ResolutionTracker.Controllers
         }
 
         // GET returns the default Create view which is the form
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -78,7 +81,10 @@ namespace ResolutionTracker.Controllers
         {
 
             // to-do: add calendar to date input
-            // chop off the % sign that the user will input
+            // to-do: need to auto-increment the entries in the DB from where the seed data left off. Atm you cannot actually post a
+            // new resolution to the DB because Postgres complaining about duplicate primary keys.
+            var percentageWithoutPercentageSign = newResolution.RemovePercentageSign();
+
             // make sure the object being passed is actually there. Right now it's NULL
             if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("music"))
             {
@@ -87,7 +93,7 @@ namespace ResolutionTracker.Controllers
                     Title = newResolution.ResolutionTitle,
                     Description = newResolution.ResolutionDescription,
                     Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
                     MusicGenre = newResolution.MusicGenre,
                     Instrument = newResolution.MusicalInstrument
                 };
@@ -102,7 +108,7 @@ namespace ResolutionTracker.Controllers
                     Title = newResolution.ResolutionTitle,
                     Description = newResolution.ResolutionDescription,
                     Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
                     HealthArea = newResolution.HealthArea
                 };
 
@@ -116,7 +122,7 @@ namespace ResolutionTracker.Controllers
                     Title = newResolution.ResolutionTitle,
                     Description = newResolution.ResolutionDescription,
                     Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
                     Technology = newResolution.CodingTechnology
                 };
 
@@ -130,7 +136,7 @@ namespace ResolutionTracker.Controllers
                     Title = newResolution.ResolutionTitle,
                     Description = newResolution.ResolutionDescription,
                     Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(newResolution.PercentageCompletion),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
                     Language = newResolution.Language,
                     Skill = newResolution.LanguageSkill
                 };

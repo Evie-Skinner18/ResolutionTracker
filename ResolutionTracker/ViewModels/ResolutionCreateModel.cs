@@ -27,5 +27,11 @@
 
         public string LanguageSkill { get; set; }
 
+
+        public string RemovePercentageSign()
+        {
+            return PercentageCompletion.Contains("%") ? PercentageCompletion.Replace("%", string.Empty) : PercentageCompletion;
+        }
+
     }
 }

@@ -6,18 +6,19 @@
 
     <div class="resolution-form">
         <h1>Make a New Resolution!</h1>
-        <form method="POST">
+        <form asp-action="Create" method="POST">
             <div class="form-group">
-                <input type="text" name="Title" class="form-control" placeholder="Title">
+                <input type="text" name="ResolutionTitle" class="form-control" placeholder="Title" asp-for="ResolutionTitle">
             </div>
             <div class="form-group">
-                <input type="text" name="Description" class="form-control" placeholder="Description">
+                <input type="text" name="ResolutionDescription" class="form-control" placeholder="Description" asp-for="ResolutionDescription">
             </div>
             <div class="form-group">
-                <input type="text" name="Deadline" class="form-control" placeholder="Deadline">
+                <input type="text" name="ResolutionDeadline" class="form-control" placeholder="Deadline" asp-for="ResolutionDeadline">
             </div>
             <div class="form-group">
-                <select name="Type" class="form-control">
+                <select name="ResolutionType" class="form-control" asp-for="ResolutionType">
+                    <option selected disabled>Select resolution type...</option>
                     <option>Music</option>
                     <option>Health</option>
                     <option>Coding</option>
@@ -25,9 +26,9 @@
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" name="Percentage Completion" class="form-control" placeholder="Percentage Completion">
+                <input type="text" name="PercentageCompletion" class="form-control" placeholder="Percentage Completion" asp-for="PercentageCompletion">
             </div>
-            <button type="submit" asp-action="Create" class="btn btn-primary">Submit</button>
+            <button type="submit"class="btn btn-primary">Submit</button>
         </form>
     </div>
 
