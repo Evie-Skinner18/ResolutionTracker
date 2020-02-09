@@ -72,7 +72,9 @@ namespace ResolutionTracker.Controllers
         //   POST (how to protect against over posting attack?)
         // also make sure you sanitise the user inputs
         // this method is far too long
-        public ActionResult CreateResolution(ResolutionCreateModel newResolution)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(ResolutionCreateModel newResolution)
         {
 
             // to-do: add calendar to date input
