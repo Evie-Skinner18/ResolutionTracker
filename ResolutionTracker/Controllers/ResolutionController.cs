@@ -43,6 +43,9 @@ namespace ResolutionTracker.Controllers
         public IActionResult Detail(int id)
         {
             var currentResolution = _resolutionService.GetResolutionById(id);
+            var currentResolutionType = _resolutionService.GetResolutionType(id);
+            var currentResolutionHealthArea = _resolutionService.GetHealthArea(id);
+            
 
             var resolutionDetailObject = new ResolutionDetailModel()
             {
