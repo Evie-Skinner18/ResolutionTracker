@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using ResolutionTracker.Data;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
@@ -111,9 +110,14 @@ namespace ResolutionTracker.Services
         {
             var musicResolutions = _resolutionTrackerContext.MusicResolutions;
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
+            var genreToReturn = "";
 
-            return isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().MusicGenre
-                : "Couldn't find a music resolution soz!";
+            if (isMusicResolution && !String.IsNullOrEmpty(currentMusicResolutionsGenreInDb))
+            {
+                genreToReturn = currentMusicResolutionsGenreInDb;
+            }
+
+            return genreToReturn;
         }
 
         public string GetInstrument(int id)
@@ -126,13 +130,20 @@ namespace ResolutionTracker.Services
 
         }
 
+        // this was returning NULL so it made the app crash because it's supposed to return string
         public string GetHealthArea(int id)
         {
             var healthResolutions = _resolutionTrackerContext.HealthResolutions;
             var isHealthResolution = _resolutionTrackerContext.Resolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id)).Any();
+            var currentHealthResolutionsHealthAreaInDb = healthResolutions.Where(h => h.Id.Equals(id)).FirstOrDefault().HealthArea;
+            var healthAreaToReturn = "";
 
-            return isHealthResolution ? healthResolutions.Where(h => h.Id.Equals(id)).FirstOrDefault().HealthArea
-                : "Looks like that's not a health resolution sozbeef!";
+            if (isHealthResolution && !String.IsNullOrEmpty(currentHealthResolutionsHealthAreaInDb))
+            {
+                healthAreaToReturn = currentHealthResolutionsHealthAreaInDb;
+            }
+
+            return healthAreaToReturn;
         }
 
         public string GetTechnology(int id)
@@ -160,6 +171,11 @@ namespace ResolutionTracker.Services
 
             return isLanguageResolution ? languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault().Skill
                 : "Il semble que ce ne soit pas une résolution sur les langues...";
+        }
+
+        public string GetString(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
