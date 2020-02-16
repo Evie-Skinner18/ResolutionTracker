@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using ResolutionTracker.Data;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
@@ -111,55 +110,68 @@ namespace ResolutionTracker.Services
         {
             var musicResolutions = _resolutionTrackerContext.MusicResolutions;
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
+            var currentGenreValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().MusicGenre
+                     : "No genre needed";
 
-            return isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().MusicGenre
-                : "Couldn't find a music resolution soz!";
+            var newGenreValue = String.IsNullOrEmpty(currentGenreValue) ? "No genre" : currentGenreValue;
+            return newGenreValue;
         }
 
         public string GetInstrument(int id)
         {
             var musicResolutions = _resolutionTrackerContext.MusicResolutions;
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
+            var currentInstrumentValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().Instrument
+                : "No instrument needed";
 
-            return isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().Instrument
-                : "Looks like that's not a music resolution soz!";
-
+            // what do you do if musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().Instrument is NULL?
+            var newInstrumentValue = String.IsNullOrEmpty(currentInstrumentValue) ? "No instrument" : currentInstrumentValue;
+            return newInstrumentValue;
         }
 
+        // this was returning NULL so it made the app crash because it's supposed to return string
         public string GetHealthArea(int id)
         {
             var healthResolutions = _resolutionTrackerContext.HealthResolutions;
             var isHealthResolution = _resolutionTrackerContext.Resolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id)).Any();
+            var currentHealthAreaValue = isHealthResolution ? healthResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().HealthArea
+                : "No health area needed";
 
-            return isHealthResolution ? healthResolutions.Where(h => h.Id.Equals(id)).FirstOrDefault().HealthArea
-                : "Looks like that's not a health resolution sozbeef!";
+            var newHealthAreaValue = String.IsNullOrEmpty(currentHealthAreaValue) ? "No health area" : currentHealthAreaValue;
+            return newHealthAreaValue;
         }
 
         public string GetTechnology(int id)
         {
             var codingResolutions = _resolutionTrackerContext.CodingResolutions;
             var isCodingResolution = _resolutionTrackerContext.Resolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id)).Any();
+            var currentTechnologyValue = isCodingResolution ? codingResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Technology
+                : "No technology needed";
 
-            return isCodingResolution ? codingResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Technology
-                : "I don't think that's a coding resolution sozzer";
+            var newTechnologyValue = String.IsNullOrEmpty(currentTechnologyValue) ? "No technology" : currentTechnologyValue;
+            return newTechnologyValue;
         }
 
         public string GetLanguage(int id)
         {
             var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
             var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
+            var currentLanguageValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Language
+                : "Aucune langue requise";
 
-            return isLanguageResolution ? languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault().Language
-                : "Il semble que ce ne soit pas une résolution sur les langues...";
+            var newLanguageValue = String.IsNullOrEmpty(currentLanguageValue) ? "Il n'y a aucune langue à montrer" : currentLanguageValue;
+            return newLanguageValue;
         }
 
         public string GetSkill(int id)
         {
             var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
             var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
+            var currentSkillValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Skill
+                : "Aucune compétence requise";
 
-            return isLanguageResolution ? languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault().Skill
-                : "Il semble que ce ne soit pas une résolution sur les langues...";
+            var newSkillValue = String.IsNullOrEmpty(currentSkillValue) ? "Il n'y a aucune compétence à montrer" : currentSkillValue;
+            return newSkillValue;
         }
     }
 }

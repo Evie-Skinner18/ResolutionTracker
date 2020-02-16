@@ -21,7 +21,6 @@ namespace ResolutionTracker.Data.Models
                     // leave out instrument and date completed
                     new MusicResolution
                     {
-                        Id = 1,
                         Title = "See Lamb of God Live",
                         MusicGenre = "Heavy metal",
                         Description = "Lamb of God are going on tour in the spring because they have a new album out. Get in!",
@@ -31,7 +30,6 @@ namespace ResolutionTracker.Data.Models
 
                     new HealthResolution
                     {
-                        Id = 2,
                         Title = "Get Prescription Swimming Goggles",
                         HealthArea = "Eyes",
                         Description = "This will help you get more into swimming if you can see where you're going!",
@@ -41,7 +39,6 @@ namespace ResolutionTracker.Data.Models
 
                     new CodingResolution
                     {
-                        Id = 3,
                         Title = "Contribute to Chocolatey",
                         Technology = "C#",
                         Description = "This will be a good opportunity to contribute to a real open source project",
@@ -51,7 +48,6 @@ namespace ResolutionTracker.Data.Models
 
                     new LanguageResolution
                     {
-                        Id = 4,
                         Title = "Learn Dutch",
                         Language = "Dutch",
                         Skill = "Speaking",

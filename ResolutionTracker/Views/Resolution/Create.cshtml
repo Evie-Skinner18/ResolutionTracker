@@ -1,0 +1,36 @@
+﻿@model ResolutionTracker.ViewModels.ResolutionCreateModel
+
+@{
+    ViewData["Title"] = "New Resolution";
+}
+
+    <div class="resolution-form">
+        <h1>Make a New Resolution!</h1>
+        <form asp-action="Create" method="POST">
+            <div class="form-group">
+                <input type="text" name="ResolutionTitle" class="form-control" placeholder="Title" asp-for="ResolutionTitle">
+            </div>
+            <div class="form-group">
+                <input type="text" name="ResolutionDescription" class="form-control" placeholder="Description" asp-for="ResolutionDescription">
+            </div>
+            <div class="form-group">
+                <input type="text" name="ResolutionDeadline" class="form-control" placeholder="Deadline" asp-for="ResolutionDeadline">
+            </div>
+            <div class="form-group">
+                <select name="ResolutionType" class="form-control" asp-for="ResolutionType">
+                    <option selected disabled>Select resolution type...</option>
+                    <option>Music</option>
+                    <option>Health</option>
+                    <option>Coding</option>
+                    <option>Language</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="PercentageCompletion" class="form-control" placeholder="Percentage Completion" asp-for="PercentageCompletion">
+            </div>
+            <button type="submit"class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+
