@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
@@ -77,18 +78,14 @@ namespace ResolutionTracker.Controllers
 
         //   POST (how to protect against over posting attack?)
         // also make sure you sanitise the user inputs
-        // this method is far too long
+        // this method is far too long. Can you handle some of this logic in the service layer?
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ResolutionCreateModel newResolution)
         {
-
             // to-do: add calendar to date input
-            // to-do: need to auto-increment the entries in the DB from where the seed data left off. Atm you cannot actually post a
-            // new resolution to the DB because Postgres complaining about duplicate primary keys.
             var percentageWithoutPercentageSign = newResolution.RemovePercentageSign();
 
-            // make sure the object being passed is actually there. Right now it's NULL
             if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("music"))
             {
                 var musicResolutionForDatabase = new MusicResolution()
@@ -155,6 +152,26 @@ namespace ResolutionTracker.Controllers
 
         
 
-        // update and delete routes
+        // update
+        // GET returns the default Edit view which is again the form
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            if (id == null)
+            {
+                return new BadRequestResult();
+            }
+
+            var resolutionToEdit = _resolutionService.GetResolutionById(id);
+            return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(resolutionToEdit);
+        }
+
+
+
+
+
+
+
+        //delete routes
     }
 }
