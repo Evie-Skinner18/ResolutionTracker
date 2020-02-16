@@ -30,8 +30,5 @@ namespace ResolutionTracker.Data.Models.Common
         // language details
         string GetLanguage(int id);
         string GetSkill(int id);
-
-        // extra methods in case any string methods return null
-        string GetString(int id);
     }
 }
