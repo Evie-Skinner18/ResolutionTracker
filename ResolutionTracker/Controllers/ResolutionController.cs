@@ -166,6 +166,15 @@ namespace ResolutionTracker.Controllers
             return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(resolutionToEdit);
         }
 
+        // I think UPDATE corresponds to Put
+        [HttpPut]
+        public IActionResult Edit(int id)
+        {
+            // to-do: create  Edit form view for GET
+            // create Edit view model
+            // finish this Put method (should it be PUT or POST?)
+        }
+
 
 
 
