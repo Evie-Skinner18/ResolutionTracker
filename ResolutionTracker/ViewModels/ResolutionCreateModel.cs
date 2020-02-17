@@ -1,7 +1,6 @@
 ﻿namespace ResolutionTracker.ViewModels
 {
-    // do I really need this? Can't I just use existing view models?
-    public class ResolutionCreateModel
+    public partial class ResolutionCreateModel
     {
         public string ResolutionId { get; set; }
 
@@ -32,6 +31,5 @@
         {
             return PercentageCompletion.Contains("%") ? PercentageCompletion.Replace("%", string.Empty) : PercentageCompletion;
         }
-
     }
 }
