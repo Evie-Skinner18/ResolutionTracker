@@ -24,6 +24,5 @@
   <ItemGroup>
     <Folder Include="ResolutionTracker.Data\Models\" />
     <Folder Include="ResolutionTracker.Data\Models\Common\" />
-    <Folder Include="Views\Resolution\" />
   </ItemGroup>
 </Project>
