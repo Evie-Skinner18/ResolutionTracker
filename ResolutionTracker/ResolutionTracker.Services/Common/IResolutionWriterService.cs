@@ -6,5 +6,6 @@ namespace ResolutionTracker.Services.Common
     public interface IResolutionWriterService
     {
         void AddResolution(Resolution newResolution);
+        void UpdateResolution(Resolution resolutionToUpdate);   
     }
 }

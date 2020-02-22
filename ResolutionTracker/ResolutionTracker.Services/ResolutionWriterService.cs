@@ -1,4 +1,5 @@
-﻿using ResolutionTracker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ResolutionTracker.Data;
 using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.Services.Common;
 
@@ -16,6 +17,12 @@ namespace ResolutionTracker.Services
         public void AddResolution(Resolution newResolution)
         {
             _resolutionTrackerContext.Add(newResolution);
+            _resolutionTrackerContext.SaveChanges();
+        }
+
+        public void UpdateResolution(Resolution resolutionToUpdate)
+        {
+            _resolutionTrackerContext.Entry(resolutionToUpdate).State = EntityState.Modified;
             _resolutionTrackerContext.SaveChanges();
         }
     }

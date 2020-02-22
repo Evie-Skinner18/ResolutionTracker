@@ -25,7 +25,5 @@
         public string Language { get; set; }
 
         public string LanguageSkill { get; set; }
-
     }
-
 }
