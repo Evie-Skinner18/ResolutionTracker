@@ -47,10 +47,7 @@ namespace ResolutionTracker.Controllers
         public IActionResult Detail(int id)
         {
             var currentResolution = _resolutionReaderService.GetResolutionById(id);
-            var currentResolutionType = _resolutionReaderService.GetResolutionType(id);
-            var currentResolutionHealthArea = _resolutionReaderService.GetHealthArea(id);
             
-
             var resolutionDetailObject = new ResolutionDetailModel()
             {
                 ResolutionId = currentResolution.Id.ToString(),
@@ -84,17 +81,17 @@ namespace ResolutionTracker.Controllers
         // to-do: add calendar to date input
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ResolutionCreateModel newResolution)
+        public IActionResult Create(ResolutionCreateModel newViewResolution)
         {
             if (ModelState.IsValid)
             {
-                var resolutionToAdd = _resolutionReaderService.GetResolutionFromUserInput(newResolution);
+                var resolutionToAdd = _resolutionReaderService.GetResolutionFromUserInput(newViewResolution);
                 _resolutionWriterService.AddResolution(resolutionToAdd);
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(newResolution);
+                return View(newViewResolution);
             }
         }
 
@@ -109,17 +106,42 @@ namespace ResolutionTracker.Controllers
             }
 
             var resolutionToEdit = _resolutionReaderService.GetResolutionById(id);
-            return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(resolutionToEdit);
+            var viewResolutionToEdit = new ResolutionEditModel()
+            {
+                ResolutionId = resolutionToEdit.Id.ToString(),
+                ResolutionTitle = resolutionToEdit.Title,
+                ResolutionDescription = resolutionToEdit.Description,
+                ResolutionDeadline = resolutionToEdit.Deadline.ToString(),
+                ResolutionType = _resolutionReaderService.GetResolutionType(id),
+                PercentageCompletion = resolutionToEdit.PercentageCompleted.ToString(),
+                MusicGenre = _resolutionReaderService.GetMusicGenre(id),
+                MusicalInstrument = _resolutionReaderService.GetInstrument(id),
+                HealthArea = _resolutionReaderService.GetHealthArea(id),
+                CodingTechnology = _resolutionReaderService.GetTechnology(id),
+                Language = _resolutionReaderService.GetLanguage(id),
+                LanguageSkill = _resolutionReaderService.GetSkill(id)
+            };
+
+            return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(viewResolutionToEdit);
         }
 
         // UPDATE corresponds to Put. Put means you submit the whole object again when you update; Patch means you submit only certain deetz
         // for now keeping this as a ResolutionCreateModel to re-use that
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ResolutionCreateModel resolutionToEdit)
+        public IActionResult Edit(ResolutionCreateModel viewResolutionToEdit)
         {
             // finish this Put method
-
+            if (ModelState.IsValid)
+            {
+                var resolutionToUpdate = _resolutionReaderService.GetResolutionFromUserInput(viewResolutionToEdit);
+                _resolutionWriterService.UpdateResolution(resolutionToUpdate);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(viewResolutionToEdit);
+            }
         }
 
 

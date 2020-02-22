@@ -172,7 +172,7 @@ namespace ResolutionTracker.Services
         }
 
         // when a user fills out the CREATE form, we need to pick which kind of resolution to return to the view based on
-        // the type that the user puts in
+        // the type that the user puts in. It maps the ResolutionCreateModel given to it to a Resolution that the DB can take
         public Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution)
         {
             Resolution resolutionToAdd;
