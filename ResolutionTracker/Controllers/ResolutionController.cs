@@ -4,17 +4,20 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Services.Common;
 using ResolutionTracker.ViewModels;
 
 namespace ResolutionTracker.Controllers
 {
     public class ResolutionController : Controller
     {
-        private IResolutionService _resolutionService;
+        private IResolutionReaderService _resolutionReaderService;
+        private IResolutionWriterService _resolutionWriterService;
 
-        public ResolutionController(IResolutionService resolutionService)
+        public ResolutionController(IResolutionReaderService resolutionReaderService, IResolutionWriterService resolutionWriterService)
         {
-            _resolutionService = resolutionService;
+            _resolutionReaderService = resolutionReaderService;
+            _resolutionWriterService = resolutionWriterService;
         }
 
         // root route
@@ -22,7 +25,7 @@ namespace ResolutionTracker.Controllers
         public IActionResult Index()
         {
             // first step is to tell our service to grab all the resolutions from the DB
-            var allResolutions = _resolutionService.GetAllResolutions().ToList();
+            var allResolutions = _resolutionReaderService.GetAllResolutions().ToList();
 
             // next step is to translate each resolution object into an instance of the view model
             var allResolutionViewObjects = allResolutions
@@ -43,9 +46,9 @@ namespace ResolutionTracker.Controllers
         [HttpGet]
         public IActionResult Detail(int id)
         {
-            var currentResolution = _resolutionService.GetResolutionById(id);
-            var currentResolutionType = _resolutionService.GetResolutionType(id);
-            var currentResolutionHealthArea = _resolutionService.GetHealthArea(id);
+            var currentResolution = _resolutionReaderService.GetResolutionById(id);
+            var currentResolutionType = _resolutionReaderService.GetResolutionType(id);
+            var currentResolutionHealthArea = _resolutionReaderService.GetHealthArea(id);
             
 
             var resolutionDetailObject = new ResolutionDetailModel()
@@ -54,16 +57,16 @@ namespace ResolutionTracker.Controllers
                 ResolutionTitle = currentResolution.Title,
                 ResolutionDescription = currentResolution.Description,
                 ResolutionDeadline = currentResolution.Deadline.ToShortDateString(),
-                ResolutionType = _resolutionService.GetResolutionType(id),
+                ResolutionType = _resolutionReaderService.GetResolutionType(id),
                 PercentageCompletion = currentResolution.PercentageCompleted.ToString(),
                 PercentageLeft = (100 - currentResolution.PercentageCompleted).ToString(),
                 DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
-                MusicGenre = _resolutionService.GetMusicGenre(id),
-                MusicalInstrument = _resolutionService.GetInstrument(id),
-                HealthArea = _resolutionService.GetHealthArea(id).ToLower(),
-                CodingTechnology = _resolutionService.GetTechnology(id),
-                Language = _resolutionService.GetLanguage(id),
-                LanguageSkill = _resolutionService.GetSkill(id).ToLower()
+                MusicGenre = _resolutionReaderService.GetMusicGenre(id),
+                MusicalInstrument = _resolutionReaderService.GetInstrument(id),
+                HealthArea = _resolutionReaderService.GetHealthArea(id).ToLower(),
+                CodingTechnology = _resolutionReaderService.GetTechnology(id),
+                Language = _resolutionReaderService.GetLanguage(id),
+                LanguageSkill = _resolutionReaderService.GetSkill(id).ToLower()
             };
 
             return View(resolutionDetailObject);
@@ -84,70 +87,10 @@ namespace ResolutionTracker.Controllers
         public IActionResult Create(ResolutionCreateModel newResolution)
         {
             // to-do: add calendar to date input
-            var percentageWithoutPercentageSign = newResolution.RemovePercentageSign();
-
-            if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("music"))
-            {
-                var musicResolutionForDatabase = new MusicResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    MusicGenre = newResolution.MusicGenre,
-                    Instrument = newResolution.MusicalInstrument
-                };
-
-                _resolutionService.AddResolution(musicResolutionForDatabase);
-                return RedirectToAction("Index");        
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("health"))
-            {
-                var healthResolutionForDatabase = new HealthResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    HealthArea = newResolution.HealthArea
-                };
-
-                _resolutionService.AddResolution(healthResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("coding"))
-            {
-                var codingResolutionForDatabase = new CodingResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    Technology = newResolution.CodingTechnology
-                };
-
-                _resolutionService.AddResolution(codingResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("language"))
-            {
-                var languageResolutionForDatabase = new LanguageResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    Language = newResolution.Language,
-                    Skill = newResolution.LanguageSkill
-                };
-
-                _resolutionService.AddResolution(languageResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else
-            {
+            
+           
                 return View(newResolution);
-            }
+            
         }
 
         
@@ -162,7 +105,7 @@ namespace ResolutionTracker.Controllers
                 return new BadRequestResult();
             }
 
-            var resolutionToEdit = _resolutionService.GetResolutionById(id);
+            var resolutionToEdit = _resolutionReaderService.GetResolutionById(id);
             return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(resolutionToEdit);
         }
 

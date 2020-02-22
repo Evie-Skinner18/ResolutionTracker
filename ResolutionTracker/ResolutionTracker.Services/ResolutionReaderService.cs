@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using ResolutionTracker.Services.Common;
 using ResolutionTracker.Data;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.ViewModels;
+using ResolutionTracker.Utilities;
 
 namespace ResolutionTracker.Services
 {
@@ -174,7 +176,68 @@ namespace ResolutionTracker.Services
         // the type that the user puts in
         public Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution)
         {
-            throw new NotImplementedException();
+            // remove the % and reassign that to the percentage property
+            var percentageWithoutPercentageSign = resolution.PercentageCompletion.RemovePercentageSign();
+            resolution.PercentageCompletion = percentageWithoutPercentageSign;
+
+            if (ModelState.IsValid && resolution.ResolutionType.ToLower().Equals("music"))
+            {
+                var musicResolutionForDatabase = new MusicResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                    MusicGenre = newResolution.MusicGenre,
+                    Instrument = newResolution.MusicalInstrument
+                };
+
+                _resolutionService.AddResolution(musicResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
+            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("health"))
+            {
+                var healthResolutionForDatabase = new HealthResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                    HealthArea = newResolution.HealthArea
+                };
+
+                _resolutionService.AddResolution(healthResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
+            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("coding"))
+            {
+                var codingResolutionForDatabase = new CodingResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                    Technology = newResolution.CodingTechnology
+                };
+
+                _resolutionService.AddResolution(codingResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
+            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("language"))
+            {
+                var languageResolutionForDatabase = new LanguageResolution()
+                {
+                    Title = newResolution.ResolutionTitle,
+                    Description = newResolution.ResolutionDescription,
+                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
+                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                    Language = newResolution.Language,
+                    Skill = newResolution.LanguageSkill
+                };
+
+                _resolutionService.AddResolution(languageResolutionForDatabase);
+                return RedirectToAction("Index");
+            }
         }
     }
 }
