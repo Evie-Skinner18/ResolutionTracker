@@ -176,68 +176,61 @@ namespace ResolutionTracker.Services
         // the type that the user puts in
         public Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution)
         {
-            // remove the % and reassign that to the percentage property
+            Resolution resolutionToAdd;
+            var resolutionType = resolution.ResolutionType.ToLower();
             var percentageWithoutPercentageSign = resolution.PercentageCompletion.RemovePercentageSign();
-            resolution.PercentageCompletion = percentageWithoutPercentageSign;
 
-            if (ModelState.IsValid && resolution.ResolutionType.ToLower().Equals("music"))
+            switch (resolutionType)
             {
-                var musicResolutionForDatabase = new MusicResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    MusicGenre = newResolution.MusicGenre,
-                    Instrument = newResolution.MusicalInstrument
-                };
-
-                _resolutionService.AddResolution(musicResolutionForDatabase);
-                return RedirectToAction("Index");
+                case "music":
+                    resolutionToAdd = new MusicResolution()
+                    {
+                        Title = resolution.ResolutionTitle,
+                        Description = resolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(resolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        MusicGenre = resolution.MusicGenre,
+                        Instrument = resolution.MusicalInstrument
+                    };
+                    break;
+                case "health":
+                    resolutionToAdd = new HealthResolution()
+                    {
+                        Title = resolution.ResolutionTitle,
+                        Description = resolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(resolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        HealthArea = resolution.HealthArea
+                    };
+                    break;
+                case "coding":
+                    resolutionToAdd = new CodingResolution()
+                    {
+                        Title = resolution.ResolutionTitle,
+                        Description = resolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(resolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        Technology = resolution.CodingTechnology
+                    };
+                    break;
+                case "language":
+                    resolutionToAdd = new LanguageResolution()
+                    {
+                        Title = resolution.ResolutionTitle,
+                        Description = resolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(resolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        Language = resolution.Language,
+                        Skill = resolution.LanguageSkill
+                    };
+                    break;
+                default:
+                    resolutionToAdd = null;
+                    break;
             }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("health"))
-            {
-                var healthResolutionForDatabase = new HealthResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    HealthArea = newResolution.HealthArea
-                };
 
-                _resolutionService.AddResolution(healthResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("coding"))
-            {
-                var codingResolutionForDatabase = new CodingResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    Technology = newResolution.CodingTechnology
-                };
-
-                _resolutionService.AddResolution(codingResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("language"))
-            {
-                var languageResolutionForDatabase = new LanguageResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    Language = newResolution.Language,
-                    Skill = newResolution.LanguageSkill
-                };
-
-                _resolutionService.AddResolution(languageResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
+            return resolutionToAdd;
         }
+     
     }
 }

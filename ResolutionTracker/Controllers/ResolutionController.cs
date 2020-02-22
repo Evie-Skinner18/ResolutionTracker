@@ -81,19 +81,22 @@ namespace ResolutionTracker.Controllers
 
         //   POST (how to protect against over posting attack?)
         // also make sure you sanitise the user inputs
-        // this method is far too long. Can you handle some of this logic in the service layer?
+        // to-do: add calendar to date input
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ResolutionCreateModel newResolution)
         {
-            // to-do: add calendar to date input
-            
-           
+            if (ModelState.IsValid)
+            {
+                var resolutionToAdd = _resolutionReaderService.GetResolutionFromUserInput(newResolution);
+                _resolutionWriterService.AddResolution(resolutionToAdd);
+                return RedirectToAction("Index");
+            }
+            else
+            {
                 return View(newResolution);
-            
+            }
         }
-
-        
 
         // update
         // GET returns the default Edit view which is again the form
