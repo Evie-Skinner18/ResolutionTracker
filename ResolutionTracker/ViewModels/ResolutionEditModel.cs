@@ -26,10 +26,6 @@
 
         public string LanguageSkill { get; set; }
 
-        public string AddPercentageSign()
-        {
-            return PercentageCompletion.Contains("%") ? PercentageCompletion : $"{PercentageCompletion}%";
-        }
     }
 
 }

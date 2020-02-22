@@ -7,5 +7,10 @@ namespace ResolutionTracker.Utilities
         {
             return text.Contains("%") ? text.Replace("%", string.Empty) : text;
         }
+
+        public static string AddPercentageSign(this string text)
+        {
+            return text.Contains("%") ? text : $"{text}%";
+        }
     }
 }

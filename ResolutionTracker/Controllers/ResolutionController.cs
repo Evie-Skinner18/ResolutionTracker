@@ -112,7 +112,7 @@ namespace ResolutionTracker.Controllers
             return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(resolutionToEdit);
         }
 
-        // I think UPDATE corresponds to Put
+        // UPDATE corresponds to Put. Put means you submit the whole object again when you update; Patch means you submit only certain deetz
         [HttpPut]
         public IActionResult Edit(int id)
         {

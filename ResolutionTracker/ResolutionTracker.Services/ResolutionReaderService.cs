@@ -225,7 +225,13 @@ namespace ResolutionTracker.Services
                     };
                     break;
                 default:
-                    resolutionToAdd = null;
+                    resolutionToAdd = new Resolution()
+                    {
+                        Title = resolution.ResolutionTitle,
+                        Description = resolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(resolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                    };
                     break;
             }
 
