@@ -1,6 +1,6 @@
 ﻿namespace ResolutionTracker.ViewModels
 {
-    public partial class ResolutionCreateModel
+    public class ResolutionEditModel
     {
         public string ResolutionId { get; set; }
 
@@ -26,10 +26,10 @@
 
         public string LanguageSkill { get; set; }
 
-
-        public string RemovePercentageSign()
+        public string AddPercentageSign()
         {
-            return PercentageCompletion.Contains("%") ? PercentageCompletion.Replace("%", string.Empty) : PercentageCompletion;
+            return PercentageCompletion.Contains("%") ? PercentageCompletion : $"{PercentageCompletion}%";
         }
     }
+
 }

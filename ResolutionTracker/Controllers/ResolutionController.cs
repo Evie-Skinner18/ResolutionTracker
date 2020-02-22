@@ -171,8 +171,7 @@ namespace ResolutionTracker.Controllers
         public IActionResult Edit(int id)
         {
             // to-do: create  Edit form view for GET
-            // create Edit view model
-            // finish this Put method (should it be PUT or POST?)
+            // finish this Put method
         }
 
 
