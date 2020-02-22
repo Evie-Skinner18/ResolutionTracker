@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ResolutionTracker.Services.Common;
 using ResolutionTracker.Data;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.ViewModels;
 
 namespace ResolutionTracker.Services
 {
-    public class ResolutionService : IResolutionService
+    public class ResolutionReaderService : IResolutionReaderService
     {
         private ResolutionTrackerContext _resolutionTrackerContext;
 
-        public ResolutionService(ResolutionTrackerContext resolutionTrackerContext)
+        public ResolutionReaderService(ResolutionTrackerContext resolutionTrackerContext)
         {
             _resolutionTrackerContext = resolutionTrackerContext;
         }
@@ -26,12 +28,6 @@ namespace ResolutionTracker.Services
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
                 .FirstOrDefault();
-        }
-
-        public void AddResolution(Resolution newResolution)
-        {
-            _resolutionTrackerContext.Add(newResolution);
-            _resolutionTrackerContext.SaveChanges();
         }
 
         public DateTime GetDateCompleted(int id)
@@ -172,6 +168,11 @@ namespace ResolutionTracker.Services
 
             var newSkillValue = String.IsNullOrEmpty(currentSkillValue) ? "Il n'y a aucune compétence à montrer" : currentSkillValue;
             return newSkillValue;
+        }
+
+        public Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution)
+        {
+            throw new NotImplementedException();
         }
     }
 }

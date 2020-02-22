@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.ViewModels;
 
-namespace ResolutionTracker.Data.Models.Common
+namespace ResolutionTracker.Services.Common
 {
-    public interface IResolutionService
+    // this service can read from the DB
+    public interface IResolutionReaderService
     {
         IEnumerable<Resolution> GetAllResolutions();
         Resolution GetResolutionById(int id);
-        void AddResolution(Resolution newResolution);
 
         // details for any kind of resolution
         string GetTitle(int id);
@@ -30,5 +32,8 @@ namespace ResolutionTracker.Data.Models.Common
         // language details
         string GetLanguage(int id);
         string GetSkill(int id);
+
+        // logic to decide what type of resolution this is
+        Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution);
     }
 }
