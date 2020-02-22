@@ -170,6 +170,8 @@ namespace ResolutionTracker.Services
             return newSkillValue;
         }
 
+        // when a user fills out the CREATE form, we need to pick which kind of resolution to return to the view based on
+        // the type that the user puts in
         public Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution)
         {
             throw new NotImplementedException();
