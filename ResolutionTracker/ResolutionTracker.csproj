@@ -28,5 +28,6 @@
     <Folder Include="Views\Resolution\" />
     <Folder Include="ResolutionTracker.Services\Common\" />
     <Folder Include="Utilities\" />
+    <Folder Include="ViewModels\Common\" />
   </ItemGroup>
 </Project>

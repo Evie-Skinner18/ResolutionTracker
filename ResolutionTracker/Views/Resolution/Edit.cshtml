@@ -5,47 +5,68 @@
 }
 
     <div class="resolution-form">
-        <h1>Edit @Model.ResolutionTitle</h1>
-        <form asp-action="Edit" method="POST">
-            <div class="form-group">
-                <input type="text" name="ResolutionTitle" class="form-control" placeholder="Title" asp-for="ResolutionTitle">
-            </div>
-            <div class="form-group">
-                <input type="text" name="ResolutionDescription" class="form-control" placeholder="Description" asp-for="ResolutionDescription">
-            </div>
-            <div class="form-group">
-                <input type="text" name="ResolutionDeadline" class="form-control" placeholder="Deadline" asp-for="ResolutionDeadline">
-            </div>
-            <div class="form-group">
-                <select name="ResolutionType" class="form-control" asp-for="ResolutionType">
-                    <option selected disabled>Select resolution type...</option>
-                    <option>Music</option>
-                    <option>Health</option>
-                    <option>Coding</option>
-                    <option>Language</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="text" name="PercentageCompletion" class="form-control" placeholder="Percentage Completion" asp-for="PercentageCompletion">
-            </div>
-            <div class="form-group">
-                <input type="text" name="Music Genre" class="form-control" placeholder="Music Genre" asp-for="MusicGenre">
-            </div>
-            <div class="form-group">
-                <input type="text" name="Musical Instrument" class="form-control" placeholder="Musical Instrument" asp-for="MusicalInstrument">
-            </div>
-            <div class="form-group">
-                <input type="text" name="Health Area" class="form-control" placeholder="Health Area" asp-for="HealthArea">
-            </div>
-            <div class="form-group">
-                <input type="text" name="Coding Technology" class="form-control" placeholder="Coding Technology" asp-for="CodingTechnology">
-            </div>
-            <div class="form-group">
-                <input type="text" name="Language" class="form-control" placeholder="Language" asp-for="Language">
-            </div>
-            <div class="form-group">
-                <input type="text" name="Language Skill" class="form-control" placeholder="Language Skill" asp-for="LanguageSkill">
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+        <h1>Edit @Model.ResolutionTitle.  Id is @Model.ResolutionId</h1>
+        @Html.HiddenFor(Model => Model.ResolutionId)
+    <form asp-action="Edit" method="POST" asp-route-id="@Model.ResolutionId">
+        <div class="form-group">
+            <input type="text" name="ResolutionTitle" class="form-control" placeholder="Title" asp-for="ResolutionTitle">
+        </div>
+        <div class="form-group">
+            <input type="text" name="ResolutionDescription" class="form-control" placeholder="Description" asp-for="ResolutionDescription">
+        </div>
+        <div class="form-group">
+            <input type="text" name="ResolutionDeadline" class="form-control" placeholder="Deadline" asp-for="ResolutionDeadline">
+        </div>
+        <div class="form-group">
+            <input type="text" name="ResolutionDateCompleted" class="form-control" placeholder="ResolutionDateCompleted" asp-for="ResolutionDateCompleted">
+        </div>
+        <div class="form-group">
+            <select name="ResolutionType" class="form-control" asp-for="ResolutionType">
+                <option selected disabled>Select resolution type...</option>
+                <option>Music</option>
+                <option>Health</option>
+                <option>Coding</option>
+                <option>Language</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" name="PercentageCompletion" class="form-control" placeholder="Percentage Completion" asp-for="PercentageCompletion">
+        </div>
+        @{
+            var resolutionType = Model.ResolutionType.ToLower();
+            switch (resolutionType)
+            {
+                case "music":
+                    <div class="form-group">
+                        <input type="text" name="MusicGenre" class="form-control" placeholder="Music Genre" asp-for="MusicGenre">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="MusicalInstrument" class="form-control" placeholder="Musical Instrument" asp-for="MusicalInstrument">
+                    </div>
+                    break;
+                case "health":
+                    <div class="form-group">
+                        <input type="text" name="HealthArea" class="form-control" placeholder="Health Area" asp-for="HealthArea">
+                    </div>
+                    break;
+                case "coding":
+                    <div class="form-group">
+                        <input type="text" name="CodingTechnology" class="form-control" placeholder="Coding Technology" asp-for="CodingTechnology">
+                    </div>
+                    break;
+                case "language":
+                    <div class="form-group">
+                        <input type="text" name="Language" class="form-control" placeholder="Language" asp-for="Language">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="LanguageSkill" class="form-control" placeholder="Language Skill" asp-for="LanguageSkill">
+                    </div>
+                    break;
+                default:
+                    <p>Looks like this resolution doesn't have a type yet...</p>
+                    break;
+            }
+        }
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
     </div>

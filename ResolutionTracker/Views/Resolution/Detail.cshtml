@@ -13,16 +13,16 @@
     <p>@Model.ResolutionDescription</p>
     <p>Category: @Model.ResolutionType</p>
     @{
-        if (Model.ResolutionType.Equals("Music"))
+        if (Model.ResolutionType.ToLower().Equals("music"))
         {
             <p>Instrument: @Model.MusicalInstrument</p>
             <p>Genre: @Model.MusicGenre</p>
         }
-        else if (Model.ResolutionType.Equals("Health"))
+        else if (Model.ResolutionType.ToLower().Equals("health"))
         {
             <p>Keep your @Model.HealthArea healthy!</p>
         }
-        else if (Model.ResolutionType.Equals("Coding"))
+        else if (Model.ResolutionType.ToLower().Equals("coding"))
         {
             <p>This will help you practise @Model.CodingTechnology</p>
         }

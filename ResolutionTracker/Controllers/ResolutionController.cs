@@ -129,12 +129,13 @@ namespace ResolutionTracker.Controllers
         // for now keeping this as a ResolutionCreateModel to re-use that
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ResolutionCreateModel viewResolutionToEdit)
+        public IActionResult Edit(int id, ResolutionEditModel viewResolutionToEdit)
         {
             // finish this Put method
             if (ModelState.IsValid)
             {
-                var resolutionToUpdate = _resolutionReaderService.GetResolutionFromUserInput(viewResolutionToEdit);
+                //var resolutionToUpdate = _resolutionReaderService.GetResolutionById(id);
+                var resolutionToUpdate = _resolutionReaderService.GetResolutionToEdit(id, viewResolutionToEdit);
                 _resolutionWriterService.UpdateResolution(resolutionToUpdate);
                 return RedirectToAction("Index");
             }

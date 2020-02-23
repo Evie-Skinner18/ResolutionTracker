@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.ViewModels;
+using ResolutionTracker.ViewModels.Common;
 
 namespace ResolutionTracker.Services.Common
 {
@@ -34,6 +35,7 @@ namespace ResolutionTracker.Services.Common
         string GetSkill(int id);
 
         // logic to decide what type of resolution this is
-        Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution);
+        Resolution GetResolutionFromUserInput(ResolutionChangeModel resolution);
+        Resolution GetResolutionToEdit(int id, ResolutionChangeModel resolution);
     }
 }
