@@ -239,22 +239,48 @@ namespace ResolutionTracker.Services
         }
 
         // get this working first and refactor later
-        public Resolution GetResolutionToEdit(int id, ResolutionChangeModel viewResolution)
+        public Resolution GetResolutionToEdit(int id, ResolutionEditModel viewResolution)
         {
             var allResolutions = _resolutionTrackerContext.Resolutions;
+            var resolutionToEdit = GetResolutionById(id);
             var musicResolutions = allResolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id));
             var healthResolutions = allResolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id));
             var codingResolutions = allResolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id));
             var languageResolutions = allResolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id));
 
+            var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
+
+            // general properties that we can update regardless of specific type
+            resolutionToEdit.Title = viewResolution.ResolutionTitle;
+            resolutionToEdit.Description = viewResolution.ResolutionDescription;
+            resolutionToEdit.Deadline = DateTime.Parse(viewResolution.ResolutionDeadline);
+            resolutionToEdit.DateCompleted = DateTime.Parse(viewResolution.ResolutionDateCompleted);
+            resolutionToEdit.PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign);
+
             if (musicResolutions.Any())
             {
-                var resolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault();
-                resolutionToEdit.Title = viewResolution.ResolutionTitle;
-                resolutionToEdit.Description = viewResolution.ResolutionDescription;
-                resolutionToEdit.
-
+                var musicResolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault();
+                musicResolutionToEdit.MusicGenre = viewResolution.MusicGenre;
+                musicResolutionToEdit.Instrument = viewResolution.MusicalInstrument;
             }
+            else if (healthResolutions.Any())
+            {
+                var healthResolutionToEdit = healthResolutions.Where(h => h.Id.Equals(id)).FirstOrDefault();
+                healthResolutionToEdit.HealthArea = viewResolution.HealthArea;
+            }
+            else if (codingResolutions.Any())
+            {
+                var codingResolutionToEdit = codingResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault();
+                codingResolutionToEdit.Technology = viewResolution.CodingTechnology;
+            }
+            else
+            {
+                var languageResolutionToEdit = languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault();
+                languageResolutionToEdit.Language = viewResolution.Language;
+                languageResolutionToEdit.Skill = viewResolution.LanguageSkill;
+            }
+
+            return resolutionToEdit;
         }
     }
 }

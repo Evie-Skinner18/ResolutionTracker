@@ -36,6 +36,6 @@ namespace ResolutionTracker.Services.Common
 
         // logic to decide what type of resolution this is
         Resolution GetResolutionFromUserInput(ResolutionChangeModel resolution);
-        Resolution GetResolutionToEdit(int id, ResolutionChangeModel resolution);
+        Resolution GetResolutionToEdit(int id, ResolutionEditModel resolution);
     }
 }
