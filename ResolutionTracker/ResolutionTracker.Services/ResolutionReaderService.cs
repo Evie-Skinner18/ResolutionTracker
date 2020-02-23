@@ -172,6 +172,8 @@ namespace ResolutionTracker.Services
             return newSkillValue;
         }
 
+        // should these next two be in the reader or writer?
+
         // when a user fills out the CREATE form, we need to pick which kind of resolution to return to the view based on
         // the type that the user puts in. It maps the ResolutionCreateModel given to it to a Resolution that the DB can take
         public Resolution GetResolutionFromUserInput(ResolutionChangeModel viewResolution)
@@ -249,12 +251,13 @@ namespace ResolutionTracker.Services
             var languageResolutions = allResolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id));
 
             var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
+            var dateCompleted = string.IsNullOrWhiteSpace(viewResolution.ResolutionDateCompleted) ? DateTime.Parse("1/1/2020") : DateTime.Parse(viewResolution.ResolutionDateCompleted);
 
             // general properties that we can update regardless of specific type
             resolutionToEdit.Title = viewResolution.ResolutionTitle;
             resolutionToEdit.Description = viewResolution.ResolutionDescription;
             resolutionToEdit.Deadline = DateTime.Parse(viewResolution.ResolutionDeadline);
-            resolutionToEdit.DateCompleted = DateTime.Parse(viewResolution.ResolutionDateCompleted);
+            resolutionToEdit.DateCompleted = dateCompleted;
             resolutionToEdit.PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign);
 
             if (musicResolutions.Any())
