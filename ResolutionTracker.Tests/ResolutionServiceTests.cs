@@ -1,16 +1,17 @@
 using NUnit.Framework;
 using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Services.Common;
 
 namespace ResolutionTracker.Tests
 {
     public class ResolutionServiceTests
     {
-        IResolutionService _fakeResolutionService;
+        IResolutionReaderService _fakeResolutionReaderService;
 
         [SetUp]
         public void Setup()
         {
-            _fakeResolutionService = new FakeResolutionService();
+            _fakeResolutionReaderService = new FakeResolutionReaderService();
         }
 
         [Test]
