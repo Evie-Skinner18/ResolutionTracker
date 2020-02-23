@@ -19,6 +19,8 @@ namespace ResolutionTracker.Data.Models.Common
         [Required]
         public DateTime Deadline { get; set; }
 
+        public bool IsComplete { get; set; }
+
         public DateTime DateCompleted { get; set; }
 
         public int PercentageCompleted { get; set; }

@@ -18,7 +18,10 @@
             <input type="text" name="ResolutionDeadline" class="form-control" placeholder="Deadline" asp-for="ResolutionDeadline">
         </div>
         <div class="form-group">
-            <input type="text" name="ResolutionDateCompleted" class="form-control" placeholder="ResolutionDateCompleted" asp-for="ResolutionDateCompleted">
+            <input type="checkbox" name="ResolutionIsComplete" class="form-control" placeholder="Is this resolution complete?" asp-for="ResolutionIsComplete">
+        </div>
+        <div class="form-group">
+            <input type="text" name="ResolutionDateCompleted" class="form-control" placeholder="Date Completed" asp-for="ResolutionDateCompleted">
         </div>
         <div class="form-group">
             <select name="ResolutionType" class="form-control" asp-for="ResolutionType">
