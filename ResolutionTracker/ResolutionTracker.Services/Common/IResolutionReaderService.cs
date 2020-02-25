@@ -16,6 +16,7 @@ namespace ResolutionTracker.Services.Common
         string GetTitle(int id);
         string GetDescription(int id);
         DateTime GetDeadline(int id);
+        bool GetCompletionStatus(int id);
         DateTime GetDateCompleted(int id);
         int GetPercentageComplete(int id);
         string GetResolutionType(int id);

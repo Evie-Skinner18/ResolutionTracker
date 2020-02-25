@@ -32,6 +32,14 @@ namespace ResolutionTracker.Services
                 .FirstOrDefault();
         }
 
+        public bool GetCompletionStatus(int id)
+        {
+            return _resolutionTrackerContext.Resolutions
+                .Where(r => r.Id.Equals(id))
+                .FirstOrDefault()
+                .IsComplete;
+        }
+
         public DateTime GetDateCompleted(int id)
         {
             return _resolutionTrackerContext.Resolutions
@@ -251,7 +259,7 @@ namespace ResolutionTracker.Services
             var languageResolutions = allResolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id));
 
             var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
-            var dateCompleted = string.IsNullOrWhiteSpace(viewResolution.ResolutionDateCompleted) ? DateTime.Parse("1/1/2020") : DateTime.Parse(viewResolution.ResolutionDateCompleted);
+            var dateCompleted = viewResolution.ResolutionIsComplete ? DateTime.Parse(viewResolution.ResolutionDateCompleted) : resolutionToEdit.DateCompleted;
 
             // general properties that we can update regardless of specific type
             resolutionToEdit.Title = viewResolution.ResolutionTitle;

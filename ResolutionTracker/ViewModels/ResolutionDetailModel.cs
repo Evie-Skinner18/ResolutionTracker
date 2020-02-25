@@ -16,6 +16,8 @@
 
         public string PercentageLeft { get; set; }
 
+        public bool ResolutionIsComplete { get; set; }
+
         public string DateCompleted { get; set; }
 
         public string MusicGenre { get; set; }
