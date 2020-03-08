@@ -80,35 +80,7 @@ namespace ResolutionTracker.Data.DataAccess
                 .Title;
         }
 
-        public string GetResolutionType(int id)
-        {
-            var allResolutions = _resolutionTrackerContext.Resolutions;
-            var musicResolution = allResolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id));
-            var healthResolution = allResolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id));
-            var codingResolution = allResolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id));
-            var languageResolution = allResolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id));
-
-            var response = "";
-
-            if (musicResolution.Any())
-            {
-                response = "Music";
-            }
-            else if(healthResolution.Any())
-            {
-                response = "Health";
-            }
-            else if (codingResolution.Any())
-            {
-                response = "Coding";
-            }
-            else if (languageResolution.Any())
-            {
-                response = "Language";
-            }
-
-            return response;
-        }
+        
 
         // type-specific methods for different resolutions
         public string GetMusicGenre(int id)

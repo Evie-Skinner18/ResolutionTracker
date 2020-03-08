@@ -22,20 +22,8 @@ namespace ResolutionTracker.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // first step is to tell our service to grab all the resolutions from the DB
-            var allResolutions = _resolutionReaderService.GetAllResolutions().ToList();
-
-            // next step is to translate each resolution object into an instance of the view model
-            var allResolutionViewObjects = allResolutions
-                .Select(r => new ResolutionIndexListingModel()
-                {
-                    ResolutionId = r.Id.ToString(),
-                    ResolutionTitle = r.Title
-                });
-
-            // put his list of view objects inside an instance of ResolutionIndexModel
-            var resolutionIndexObject = new ResolutionIndexModel() { Resolutions = allResolutionViewObjects };
-
+            // have the service get what we need
+            var resolutionIndexObject = _resolutionService.GetResolutionIndexObject();
             // then we pass this ResolutionIndexModel to the view
             return View(resolutionIndexObject);
         }
@@ -44,27 +32,8 @@ namespace ResolutionTracker.Controllers
         [HttpGet]
         public IActionResult Detail(int id)
         {
-            var currentResolution = _resolutionReaderService.GetResolutionById(id);
-            
-            var resolutionDetailObject = new ResolutionDetailModel()
-            {
-                ResolutionId = currentResolution.Id.ToString(),
-                ResolutionTitle = currentResolution.Title,
-                ResolutionDescription = currentResolution.Description,
-                ResolutionDeadline = currentResolution.Deadline.ToShortDateString(),
-                ResolutionType = _resolutionReaderService.GetResolutionType(id),
-                PercentageCompletion = currentResolution.PercentageCompleted.ToString(),
-                PercentageLeft = (100 - currentResolution.PercentageCompleted).ToString(),
-                DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
-                MusicGenre = _resolutionReaderService.GetMusicGenre(id),
-                MusicalInstrument = _resolutionReaderService.GetInstrument(id),
-                HealthArea = _resolutionReaderService.GetHealthArea(id).ToLower(),
-                CodingTechnology = _resolutionReaderService.GetTechnology(id),
-                Language = _resolutionReaderService.GetLanguage(id),
-                LanguageSkill = _resolutionReaderService.GetSkill(id).ToLower()
-            };
-
-            return View(resolutionDetailObject);
+            var currentResolutionDetailObject = _resolutionService.GetResolutionDetailObject(id);           
+            return View(currentResolutionDetailObject);
         }
 
         // GET returns the default Create view which is the form
