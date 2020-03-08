@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ResolutionTracker.Data;
+using ResolutionTracker.Data.DataAccess.Common;
 using ResolutionTracker.Data.Models.Common;
-using ResolutionTracker.Services.Common;
 
-namespace ResolutionTracker.Services
+namespace ResolutionTracker.Data.DataAccess
 {
-    public class ResolutionWriterService : IResolutionWriterService
+    public class ResolutionWriterService : IResolutionWriter
     {
         private ResolutionTrackerContext _resolutionTrackerContext;
 

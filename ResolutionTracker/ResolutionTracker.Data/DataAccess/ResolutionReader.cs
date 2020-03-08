@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ResolutionTracker.Services.Common;
-using ResolutionTracker.Data;
+using ResolutionTracker.Data.DataAccess.Common;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.ViewModels;
 using ResolutionTracker.Utilities;
 using ResolutionTracker.ViewModels.Common;
 
-namespace ResolutionTracker.Services
+namespace ResolutionTracker.Data.DataAccess
 {
-    public class ResolutionReaderService : IResolutionReaderService
+    public class ResolutionReader : IResolutionReader
     {
         private ResolutionTrackerContext _resolutionTrackerContext;
 
-        public ResolutionReaderService(ResolutionTrackerContext resolutionTrackerContext)
+        public ResolutionReader(ResolutionTrackerContext resolutionTrackerContext)
         {
             _resolutionTrackerContext = resolutionTrackerContext;
         }

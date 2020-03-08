@@ -4,10 +4,10 @@ using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.ViewModels;
 using ResolutionTracker.ViewModels.Common;
 
-namespace ResolutionTracker.Services.Common
+namespace ResolutionTracker.Data.DataAccess.Common
 {
     // this service can read from the DB
-    public interface IResolutionReaderService
+    public interface IResolutionReader
     {
         IEnumerable<Resolution> GetAllResolutions();
         Resolution GetResolutionById(int id);

@@ -11,13 +11,11 @@ namespace ResolutionTracker.Controllers
 {
     public class ResolutionController : Controller
     {
-        private IResolutionReaderService _resolutionReaderService;
-        private IResolutionWriterService _resolutionWriterService;
+        private IResolutionService _resolutionService;
 
-        public ResolutionController(IResolutionReaderService resolutionReaderService, IResolutionWriterService resolutionWriterService)
+        public ResolutionController(IResolutionService resolutionService)
         {
-            _resolutionReaderService = resolutionReaderService;
-            _resolutionWriterService = resolutionWriterService;
+            _resolutionService = resolutionService;
         }
 
         // root route
