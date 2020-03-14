@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
 using ResolutionTracker.ViewModels;
 using ResolutionTracker.ViewModels.Common;
@@ -34,8 +35,10 @@ namespace ResolutionTracker.Data.DataAccess.Common
         string GetLanguage(int id);
         string GetSkill(int id);
 
-        // logic to decide what type of resolution this is
-        Resolution GetResolutionFromUserInput(ResolutionChangeModel resolution);
-        Resolution GetResolutionToEdit(int id, ResolutionEditModel resolution);
+        // specific types of resolution
+        IEnumerable<MusicResolution> GetMusicResolutions();
+        IEnumerable<HealthResolution> GetHealthResolutions();
+        IEnumerable<CodingResolution> GetCodingResolutions();
+        IEnumerable<LanguageResolution> GetLanguageResolutions();
     }
 }

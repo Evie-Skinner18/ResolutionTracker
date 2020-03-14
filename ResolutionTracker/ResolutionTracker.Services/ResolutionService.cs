@@ -2,7 +2,10 @@
 using System.Linq;
 using ResolutionTracker.Data.DataAccess.Common;
 using ResolutionTracker.Data.Models;
+using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Utilities;
 using ResolutionTracker.ViewModels;
+using ResolutionTracker.ViewModels.Common;
 
 namespace ResolutionTracker.Services
 {
@@ -90,5 +93,119 @@ namespace ResolutionTracker.Services
 
             return response;
         }
+
+        // when a user fills out the CREATE form, we need to pick which kind of resolution to return to the view based on
+        // the type that the user puts in. It maps the ResolutionCreateModel given to it to a Resolution that the DB can take
+        public Resolution GetResolutionFromUserInput(ResolutionChangeModel viewResolution)
+        {
+            Resolution resolutionToAdd;
+            var resolutionType = viewResolution.ResolutionType.ToLower();
+            var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
+
+            switch (resolutionType)
+            {
+                case "music":
+                    resolutionToAdd = new MusicResolution()
+                    {
+                        Title = viewResolution.ResolutionTitle,
+                        Description = viewResolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        MusicGenre = viewResolution.MusicGenre,
+                        Instrument = viewResolution.MusicalInstrument
+                    };
+                    break;
+                case "health":
+                    resolutionToAdd = new HealthResolution()
+                    {
+                        Title = viewResolution.ResolutionTitle,
+                        Description = viewResolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        HealthArea = viewResolution.HealthArea
+                    };
+                    break;
+                case "coding":
+                    resolutionToAdd = new CodingResolution()
+                    {
+                        Title = viewResolution.ResolutionTitle,
+                        Description = viewResolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        Technology = viewResolution.CodingTechnology
+                    };
+                    break;
+                case "language":
+                    resolutionToAdd = new LanguageResolution()
+                    {
+                        Title = viewResolution.ResolutionTitle,
+                        Description = viewResolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                        Language = viewResolution.Language,
+                        Skill = viewResolution.LanguageSkill
+                    };
+                    break;
+                default:
+                    resolutionToAdd = new Resolution()
+                    {
+                        Title = viewResolution.ResolutionTitle,
+                        Description = viewResolution.ResolutionDescription,
+                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
+                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
+                    };
+                    break;
+            }
+
+            return resolutionToAdd;
+        }
+
+        // get this working first and refactor later
+        public Resolution GetResolutionToEdit(int id, ResolutionEditModel viewResolution)
+        {
+            var allResolutions = _resolutionReader.GetAllResolutions();
+            var resolutionToEdit = _resolutionReader.GetResolutionById(id);
+            var musicResolutions = _resolutionReader.GetMusicResolutions().Where(m => m.Id.Equals(id));
+            var healthResolutions = _resolutionReader.GetHealthResolutions().Where(h => h.Id.Equals(id));
+            var codingResolutions = _resolutionReader.GetCodingResolutions().Where(c => c.Id.Equals(id));
+            var languageResolutions = _resolutionReader.GetLanguageResolutions().Where(l => l.Id.Equals(id));
+
+            var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
+            var dateCompleted = viewResolution.ResolutionIsComplete ? DateTime.Parse(viewResolution.ResolutionDateCompleted) : resolutionToEdit.DateCompleted;
+
+            // general properties that we can update regardless of specific type
+            resolutionToEdit.Title = viewResolution.ResolutionTitle;
+            resolutionToEdit.Description = viewResolution.ResolutionDescription;
+            resolutionToEdit.Deadline = DateTime.Parse(viewResolution.ResolutionDeadline);
+            resolutionToEdit.DateCompleted = dateCompleted;
+            resolutionToEdit.PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign);
+
+            if (musicResolutions.Any())
+            {
+                var musicResolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault();
+                musicResolutionToEdit.MusicGenre = viewResolution.MusicGenre;
+                musicResolutionToEdit.Instrument = viewResolution.MusicalInstrument;
+            }
+            else if (healthResolutions.Any())
+            {
+                var healthResolutionToEdit = healthResolutions.Where(h => h.Id.Equals(id)).SingleOrDefault();
+                healthResolutionToEdit.HealthArea = viewResolution.HealthArea;
+            }
+            else if (codingResolutions.Any())
+            {
+                var codingResolutionToEdit = codingResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault();
+                codingResolutionToEdit.Technology = viewResolution.CodingTechnology;
+            }
+            else
+            {
+                var languageResolutionToEdit = languageResolutions.Where(l => l.Id.Equals(id)).SingleOrDefault();
+                languageResolutionToEdit.Language = viewResolution.Language;
+                languageResolutionToEdit.Skill = viewResolution.LanguageSkill;
+            }
+
+            return resolutionToEdit;
+        }
+
+
     }
 }

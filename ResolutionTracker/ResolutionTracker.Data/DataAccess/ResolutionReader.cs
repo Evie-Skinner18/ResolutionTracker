@@ -80,12 +80,31 @@ namespace ResolutionTracker.Data.DataAccess
                 .Title;
         }
 
-        public 
+        // specific types of resolution
+        public IEnumerable<MusicResolution> GetMusicResolutions()
+        {
+            return _resolutionTrackerContext.MusicResolutions;
+        }
+
+        public IEnumerable<HealthResolution> GetHealthResolutions()
+        {
+            return _resolutionTrackerContext.HealthResolutions;
+        }
+
+        public IEnumerable<CodingResolution> GetCodingResolutions()
+        {
+            return _resolutionTrackerContext.CodingResolutions;
+        }
+
+        public IEnumerable<LanguageResolution> GetLanguageResolutions()
+        {
+            return _resolutionTrackerContext.LanguageResolutions;
+        }
 
         // type-specific methods for different resolutions
         public string GetMusicGenre(int id)
         {
-            var musicResolutions = _resolutionTrackerContext.MusicResolutions;
+            var musicResolutions = GetMusicResolutions();
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
             var currentGenreValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault().MusicGenre
                      : "No genre needed";
@@ -96,7 +115,7 @@ namespace ResolutionTracker.Data.DataAccess
 
         public string GetInstrument(int id)
         {
-            var musicResolutions = _resolutionTrackerContext.MusicResolutions;
+            var musicResolutions = GetMusicResolutions();
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
             var currentInstrumentValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault().Instrument
                 : "No instrument needed";
@@ -109,7 +128,7 @@ namespace ResolutionTracker.Data.DataAccess
         // this was returning NULL so it made the app crash because it's supposed to return string
         public string GetHealthArea(int id)
         {
-            var healthResolutions = _resolutionTrackerContext.HealthResolutions;
+            var healthResolutions = GetHealthResolutions();
             var isHealthResolution = _resolutionTrackerContext.Resolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id)).Any();
             var currentHealthAreaValue = isHealthResolution ? healthResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().HealthArea
                 : "No health area needed";
@@ -120,7 +139,7 @@ namespace ResolutionTracker.Data.DataAccess
 
         public string GetTechnology(int id)
         {
-            var codingResolutions = _resolutionTrackerContext.CodingResolutions;
+            var codingResolutions = GetCodingResolutions();
             var isCodingResolution = _resolutionTrackerContext.Resolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id)).Any();
             var currentTechnologyValue = isCodingResolution ? codingResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().Technology
                 : "No technology needed";
@@ -131,7 +150,7 @@ namespace ResolutionTracker.Data.DataAccess
 
         public string GetLanguage(int id)
         {
-            var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
+            var languageResolutions = GetLanguageResolutions();
             var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
             var currentLanguageValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().Language
                 : "Aucune langue requise";
@@ -142,127 +161,13 @@ namespace ResolutionTracker.Data.DataAccess
 
         public string GetSkill(int id)
         {
-            var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
+            var languageResolutions = GetLanguageResolutions();
             var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
             var currentSkillValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().Skill
                 : "Aucune compétence requise";
 
             var newSkillValue = String.IsNullOrEmpty(currentSkillValue) ? "Il n'y a aucune compétence à montrer" : currentSkillValue;
             return newSkillValue;
-        }
-
-        // should these next two be in the reader or writer?
-
-        // when a user fills out the CREATE form, we need to pick which kind of resolution to return to the view based on
-        // the type that the user puts in. It maps the ResolutionCreateModel given to it to a Resolution that the DB can take
-        public Resolution GetResolutionFromUserInput(ResolutionChangeModel viewResolution)
-        {
-            Resolution resolutionToAdd;
-            var resolutionType = viewResolution.ResolutionType.ToLower();
-            var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
-
-            switch (resolutionType)
-            {
-                case "music":
-                    resolutionToAdd = new MusicResolution()
-                    {
-                        Title = viewResolution.ResolutionTitle,
-                        Description = viewResolution.ResolutionDescription,
-                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
-                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                        MusicGenre = viewResolution.MusicGenre,
-                        Instrument = viewResolution.MusicalInstrument
-                    };
-                    break;
-                case "health":
-                    resolutionToAdd = new HealthResolution()
-                    {
-                        Title = viewResolution.ResolutionTitle,
-                        Description = viewResolution.ResolutionDescription,
-                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
-                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                        HealthArea = viewResolution.HealthArea
-                    };
-                    break;
-                case "coding":
-                    resolutionToAdd = new CodingResolution()
-                    {
-                        Title = viewResolution.ResolutionTitle,
-                        Description = viewResolution.ResolutionDescription,
-                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
-                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                        Technology = viewResolution.CodingTechnology
-                    };
-                    break;
-                case "language":
-                    resolutionToAdd = new LanguageResolution()
-                    {
-                        Title = viewResolution.ResolutionTitle,
-                        Description = viewResolution.ResolutionDescription,
-                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
-                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                        Language = viewResolution.Language,
-                        Skill = viewResolution.LanguageSkill
-                    };
-                    break;
-                default:
-                    resolutionToAdd = new Resolution()
-                    {
-                        Title = viewResolution.ResolutionTitle,
-                        Description = viewResolution.ResolutionDescription,
-                        Deadline = DateTime.Parse(viewResolution.ResolutionDeadline),
-                        PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    };
-                    break;
-            }
-
-            return resolutionToAdd;
-        }
-
-        // get this working first and refactor later
-        public Resolution GetResolutionToEdit(int id, ResolutionEditModel viewResolution)
-        {
-            var allResolutions = _resolutionTrackerContext.Resolutions;
-            var resolutionToEdit = GetResolutionById(id);
-            var musicResolutions = allResolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id));
-            var healthResolutions = allResolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id));
-            var codingResolutions = allResolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id));
-            var languageResolutions = allResolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id));
-
-            var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
-            var dateCompleted = viewResolution.ResolutionIsComplete ? DateTime.Parse(viewResolution.ResolutionDateCompleted) : resolutionToEdit.DateCompleted;
-
-            // general properties that we can update regardless of specific type
-            resolutionToEdit.Title = viewResolution.ResolutionTitle;
-            resolutionToEdit.Description = viewResolution.ResolutionDescription;
-            resolutionToEdit.Deadline = DateTime.Parse(viewResolution.ResolutionDeadline);
-            resolutionToEdit.DateCompleted = dateCompleted;
-            resolutionToEdit.PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign);
-
-            if (musicResolutions.Any())
-            {
-                var musicResolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault();
-                musicResolutionToEdit.MusicGenre = viewResolution.MusicGenre;
-                musicResolutionToEdit.Instrument = viewResolution.MusicalInstrument;
-            }
-            else if (healthResolutions.Any())
-            {
-                var healthResolutionToEdit = healthResolutions.Where(h => h.Id.Equals(id)).SingleOrDefault();
-                healthResolutionToEdit.HealthArea = viewResolution.HealthArea;
-            }
-            else if (codingResolutions.Any())
-            {
-                var codingResolutionToEdit = codingResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault();
-                codingResolutionToEdit.Technology = viewResolution.CodingTechnology;
-            }
-            else
-            {
-                var languageResolutionToEdit = languageResolutions.Where(l => l.Id.Equals(id)).SingleOrDefault();
-                languageResolutionToEdit.Language = viewResolution.Language;
-                languageResolutionToEdit.Skill = viewResolution.LanguageSkill;
-            }
-
-            return resolutionToEdit;
         }
     }
 }
