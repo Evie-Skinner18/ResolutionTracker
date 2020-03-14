@@ -28,14 +28,14 @@ namespace ResolutionTracker.Data.DataAccess
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault();
+                .SingleOrDefault();
         }
 
         public bool GetCompletionStatus(int id)
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault()
+                .SingleOrDefault()
                 .IsComplete;
         }
 
@@ -43,7 +43,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault()
+                .SingleOrDefault()
                 .DateCompleted;
         }
 
@@ -51,7 +51,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault()
+                .SingleOrDefault()
                 .Deadline;
         }
 
@@ -59,7 +59,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault()
+                .SingleOrDefault()
                 .Description;
         }
 
@@ -68,7 +68,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault()
+                .SingleOrDefault()
                 .PercentageCompleted;
         }
 
@@ -76,18 +76,18 @@ namespace ResolutionTracker.Data.DataAccess
         {
             return _resolutionTrackerContext.Resolutions
                 .Where(r => r.Id.Equals(id))
-                .FirstOrDefault()
+                .SingleOrDefault()
                 .Title;
         }
 
-        
+        public 
 
         // type-specific methods for different resolutions
         public string GetMusicGenre(int id)
         {
             var musicResolutions = _resolutionTrackerContext.MusicResolutions;
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
-            var currentGenreValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().MusicGenre
+            var currentGenreValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault().MusicGenre
                      : "No genre needed";
 
             var newGenreValue = String.IsNullOrEmpty(currentGenreValue) ? "No genre" : currentGenreValue;
@@ -98,7 +98,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             var musicResolutions = _resolutionTrackerContext.MusicResolutions;
             var isMusicResolution = _resolutionTrackerContext.Resolutions.OfType<MusicResolution>().Where(m => m.Id.Equals(id)).Any();
-            var currentInstrumentValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().Instrument
+            var currentInstrumentValue = isMusicResolution ? musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault().Instrument
                 : "No instrument needed";
 
             // what do you do if musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault().Instrument is NULL?
@@ -111,7 +111,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             var healthResolutions = _resolutionTrackerContext.HealthResolutions;
             var isHealthResolution = _resolutionTrackerContext.Resolutions.OfType<HealthResolution>().Where(h => h.Id.Equals(id)).Any();
-            var currentHealthAreaValue = isHealthResolution ? healthResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().HealthArea
+            var currentHealthAreaValue = isHealthResolution ? healthResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().HealthArea
                 : "No health area needed";
 
             var newHealthAreaValue = String.IsNullOrEmpty(currentHealthAreaValue) ? "No health area" : currentHealthAreaValue;
@@ -122,7 +122,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             var codingResolutions = _resolutionTrackerContext.CodingResolutions;
             var isCodingResolution = _resolutionTrackerContext.Resolutions.OfType<CodingResolution>().Where(c => c.Id.Equals(id)).Any();
-            var currentTechnologyValue = isCodingResolution ? codingResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Technology
+            var currentTechnologyValue = isCodingResolution ? codingResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().Technology
                 : "No technology needed";
 
             var newTechnologyValue = String.IsNullOrEmpty(currentTechnologyValue) ? "No technology" : currentTechnologyValue;
@@ -133,7 +133,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
             var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
-            var currentLanguageValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Language
+            var currentLanguageValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().Language
                 : "Aucune langue requise";
 
             var newLanguageValue = String.IsNullOrEmpty(currentLanguageValue) ? "Il n'y a aucune langue à montrer" : currentLanguageValue;
@@ -144,7 +144,7 @@ namespace ResolutionTracker.Data.DataAccess
         {
             var languageResolutions = _resolutionTrackerContext.LanguageResolutions;
             var isLanguageResolution = _resolutionTrackerContext.Resolutions.OfType<LanguageResolution>().Where(l => l.Id.Equals(id)).Any();
-            var currentSkillValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault().Skill
+            var currentSkillValue = isLanguageResolution ? languageResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault().Skill
                 : "Aucune compétence requise";
 
             var newSkillValue = String.IsNullOrEmpty(currentSkillValue) ? "Il n'y a aucune compétence à montrer" : currentSkillValue;
@@ -241,23 +241,23 @@ namespace ResolutionTracker.Data.DataAccess
 
             if (musicResolutions.Any())
             {
-                var musicResolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).FirstOrDefault();
+                var musicResolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault();
                 musicResolutionToEdit.MusicGenre = viewResolution.MusicGenre;
                 musicResolutionToEdit.Instrument = viewResolution.MusicalInstrument;
             }
             else if (healthResolutions.Any())
             {
-                var healthResolutionToEdit = healthResolutions.Where(h => h.Id.Equals(id)).FirstOrDefault();
+                var healthResolutionToEdit = healthResolutions.Where(h => h.Id.Equals(id)).SingleOrDefault();
                 healthResolutionToEdit.HealthArea = viewResolution.HealthArea;
             }
             else if (codingResolutions.Any())
             {
-                var codingResolutionToEdit = codingResolutions.Where(c => c.Id.Equals(id)).FirstOrDefault();
+                var codingResolutionToEdit = codingResolutions.Where(c => c.Id.Equals(id)).SingleOrDefault();
                 codingResolutionToEdit.Technology = viewResolution.CodingTechnology;
             }
             else
             {
-                var languageResolutionToEdit = languageResolutions.Where(l => l.Id.Equals(id)).FirstOrDefault();
+                var languageResolutionToEdit = languageResolutions.Where(l => l.Id.Equals(id)).SingleOrDefault();
                 languageResolutionToEdit.Language = viewResolution.Language;
                 languageResolutionToEdit.Skill = viewResolution.LanguageSkill;
             }
