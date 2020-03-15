@@ -5,11 +5,11 @@ using ResolutionTracker.Data.Models.Common;
 
 namespace ResolutionTracker.Data.DataAccess
 {
-    public class ResolutionWriterService : IResolutionWriter
+    public class ResolutionWriter : IResolutionWriter
     {
         private ResolutionTrackerContext _resolutionTrackerContext;
 
-        public ResolutionWriterService(ResolutionTrackerContext resolutionTrackerContext)
+        public ResolutionWriter(ResolutionTrackerContext resolutionTrackerContext)
         {
             _resolutionTrackerContext = resolutionTrackerContext;
         }

@@ -74,7 +74,6 @@ namespace ResolutionTracker.Controllers
         }
 
         // UPDATE corresponds to Put. Put means you submit the whole object again when you update; Patch means you submit only certain deetz
-        // for now keeping this as a ResolutionCreateModel to re-use that
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, ResolutionEditModel viewResolutionToEdit)
@@ -82,9 +81,10 @@ namespace ResolutionTracker.Controllers
             // finish this Put method
             if (ModelState.IsValid)
             {
-                //var resolutionToUpdate = _resolutionReaderService.GetResolutionById(id);
-                var resolutionToUpdate = _resolutionReaderService.GetResolutionToEdit(id, viewResolutionToEdit);
-                _resolutionWriterService.UpdateResolution(resolutionToUpdate);
+                //reassign the values of the resolution's properties with the values we've received
+                // in the view model
+                var resolutionToUpdate = _resolutionService.GetResolutionToEdit(id, viewResolutionToEdit);
+                _resolutionService.EditResolution(resolutionToUpdate);
                 return RedirectToAction("Index");
             }
             else
