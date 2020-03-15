@@ -3,13 +3,14 @@ using System.Linq;
 using ResolutionTracker.Data.DataAccess.Common;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Services.Common;
 using ResolutionTracker.Utilities;
 using ResolutionTracker.ViewModels;
 using ResolutionTracker.ViewModels.Common;
 
 namespace ResolutionTracker.Services
 {
-    public class ResolutionService
+    public class ResolutionService : IResolutionService
     {
         private IResolutionReader _resolutionReader;
         private IResolutionWriter _resolutionWriter;
@@ -180,6 +181,7 @@ namespace ResolutionTracker.Services
             resolutionToEdit.DateCompleted = dateCompleted;
             resolutionToEdit.PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign);
 
+            // abstract this into separate method
             if (musicResolutions.Any())
             {
                 var musicResolutionToEdit = musicResolutions.Where(m => m.Id.Equals(id)).SingleOrDefault();
@@ -206,6 +208,29 @@ namespace ResolutionTracker.Services
             return resolutionToEdit;
         }
 
+        // methods that just call the writer
+        public void CreateResolution(Resolution resolution)
+        {
+            if (resolution != null)
+            {
+                _resolutionWriter.AddResolution(resolution);
+            }
+            else
+            {
+                throw new ArgumentNullException("The resolution you're trying to add is null :<");
+            }
+        }
 
+        public void EditResolution(Resolution resolution)
+        {
+            if(resolution != null)
+            {
+                _resolutionWriter.UpdateResolution(resolution);
+            }
+            else
+            {
+                throw new ArgumentNullException("The resolution you're trying to update is null :<");
+            }
+        }
     }
 }

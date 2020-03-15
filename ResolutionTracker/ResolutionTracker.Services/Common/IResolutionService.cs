@@ -23,10 +23,12 @@ namespace ResolutionTracker.Services.Common
         ResolutionDetailModel GetResolutionDetailObject(int id);
 
         // Create
+        // this calls the writer which
         void CreateResolution(Resolution resolution);
 
         // Edit
-        void CheckResolutionToEdit(Resolution resolution);
+        // this calls the writer and the writer updates the resolution in the DB
+        void EditResolution(Resolution resolution);
 
         // Delete
 
