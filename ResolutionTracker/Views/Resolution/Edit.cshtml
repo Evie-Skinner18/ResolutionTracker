@@ -4,7 +4,7 @@
     ViewData["Title"] = $"Edit {Model.ResolutionTitle} resolution";
 }
 
-    <div class="resolution-form">
+    <div class="resolution-form light-yellow">
         <h1>Edit @Model.ResolutionTitle.  Id is @Model.ResolutionId</h1>
         @Html.HiddenFor(Model => Model.ResolutionId)
     <form asp-action="Edit" method="POST" asp-route-id="@Model.ResolutionId">
@@ -18,7 +18,8 @@
             <input type="text" name="ResolutionDeadline" class="form-control" placeholder="Deadline" asp-for="ResolutionDeadline">
         </div>
         <div class="form-group">
-            <input type="checkbox" name="ResolutionIsComplete" class="form-control" placeholder="Is this resolution complete?" asp-for="ResolutionIsComplete">
+            <p>Is this resolution complete?</p>
+            <input type="checkbox" name="ResolutionIsComplete" class="form-control" asp-for="ResolutionIsComplete">
         </div>
         @{
             if (Model.ResolutionIsComplete)
