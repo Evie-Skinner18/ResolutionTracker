@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResolutionTracker.Data;
@@ -9,9 +10,10 @@ using ResolutionTracker.Data;
 namespace ResolutionTracker.Migrations
 {
     [DbContext(typeof(ResolutionTrackerContext))]
-    partial class ResolutionTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20200315143356_ResolutionIsCompleteProperty")]
+    partial class ResolutionIsCompleteProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
