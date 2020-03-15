@@ -11,6 +11,7 @@ namespace ResolutionTracker.Services.Common
         string GetResolutionType(int id);
 
         
+        
 
         // logic to decide what type of resolution this is
         Resolution GetResolutionFromUserInput(ResolutionChangeModel resolution);
@@ -27,6 +28,8 @@ namespace ResolutionTracker.Services.Common
         void CreateResolution(Resolution resolution);
 
         // Edit
+        // map a resolution to edit view model so we can see teh resolution we want to edit
+        ResolutionEditModel GetResolutionEditObject(int id);
         // this calls the writer and the writer updates the resolution in the DB
         void EditResolution(Resolution resolution);
 

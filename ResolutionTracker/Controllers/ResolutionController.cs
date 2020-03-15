@@ -52,8 +52,8 @@ namespace ResolutionTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                var resolutionToAdd = _resolutionReaderService.GetResolutionFromUserInput(newViewResolution);
-                _resolutionWriterService.AddResolution(resolutionToAdd);
+                var resolutionToAdd = _resolutionService.GetResolutionFromUserInput(newViewResolution);
+                _resolutionService.CreateResolution(resolutionToAdd);
                 return RedirectToAction("Index");
             }
             else
@@ -67,29 +67,10 @@ namespace ResolutionTracker.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new BadRequestResult();
-            }
+            // get resolution to edit
+            var viewResolutionToEdit = _resolutionService.GetResolutionEditObject(id);
 
-            var resolutionToEdit = _resolutionReaderService.GetResolutionById(id);
-            var viewResolutionToEdit = new ResolutionEditModel()
-            {
-                ResolutionId = resolutionToEdit.Id.ToString(),
-                ResolutionTitle = resolutionToEdit.Title,
-                ResolutionDescription = resolutionToEdit.Description,
-                ResolutionDeadline = resolutionToEdit.Deadline.ToString(),
-                ResolutionType = _resolutionReaderService.GetResolutionType(id),
-                PercentageCompletion = resolutionToEdit.PercentageCompleted.ToString(),
-                MusicGenre = _resolutionReaderService.GetMusicGenre(id),
-                MusicalInstrument = _resolutionReaderService.GetInstrument(id),
-                HealthArea = _resolutionReaderService.GetHealthArea(id),
-                CodingTechnology = _resolutionReaderService.GetTechnology(id),
-                Language = _resolutionReaderService.GetLanguage(id),
-                LanguageSkill = _resolutionReaderService.GetSkill(id)
-            };
-
-            return resolutionToEdit.Equals(null) ? View(new NotFoundResult()) : View(viewResolutionToEdit);
+            return viewResolutionToEdit == null ? View(new NotFoundResult()) : View(viewResolutionToEdit);
         }
 
         // UPDATE corresponds to Put. Put means you submit the whole object again when you update; Patch means you submit only certain deetz

@@ -232,5 +232,29 @@ namespace ResolutionTracker.Services
                 throw new ArgumentNullException("The resolution you're trying to update is null :<");
             }
         }
+
+        // map a resolution to its view model equivalent
+        public ResolutionEditModel GetResolutionEditObject(int id)
+        {
+            var resolutionToEdit = _resolutionReader.GetResolutionById(id);
+
+            var viewResolutionToEdit = new ResolutionEditModel()
+            {
+                ResolutionId = resolutionToEdit.Id.ToString(),
+                ResolutionTitle = resolutionToEdit.Title,
+                ResolutionDescription = resolutionToEdit.Description,
+                ResolutionDeadline = resolutionToEdit.Deadline.ToString(),
+                ResolutionType = GetResolutionType(id),
+                PercentageCompletion = resolutionToEdit.PercentageCompleted.ToString(),
+                MusicGenre = _resolutionReader.GetMusicGenre(id),
+                MusicalInstrument = _resolutionReader.GetInstrument(id),
+                HealthArea = _resolutionReader.GetHealthArea(id),
+                CodingTechnology = _resolutionReader.GetTechnology(id),
+                Language = _resolutionReader.GetLanguage(id),
+                LanguageSkill = _resolutionReader.GetSkill(id)
+            };
+
+            return viewResolutionToEdit;
+        }
     }
 }
