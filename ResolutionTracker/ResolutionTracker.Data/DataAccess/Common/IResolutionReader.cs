@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using ResolutionTracker.Data.Models;
+using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.ViewModels;
+using ResolutionTracker.ViewModels.Common;
 
-namespace ResolutionTracker.Data.Models.Common
+namespace ResolutionTracker.Data.DataAccess.Common
 {
-    public interface IResolutionService
+    // this service can read from the DB
+    public interface IResolutionReader
     {
         IEnumerable<Resolution> GetAllResolutions();
         Resolution GetResolutionById(int id);
-        void AddResolution(Resolution newResolution);
 
         // details for any kind of resolution
         string GetTitle(int id);
         string GetDescription(int id);
         DateTime GetDeadline(int id);
+        bool GetCompletionStatus(int id);
         DateTime GetDateCompleted(int id);
         int GetPercentageComplete(int id);
-        string GetResolutionType(int id);
 
         // music details
         string GetMusicGenre(int id);
@@ -30,5 +34,11 @@ namespace ResolutionTracker.Data.Models.Common
         // language details
         string GetLanguage(int id);
         string GetSkill(int id);
+
+        // specific types of resolution
+        IEnumerable<MusicResolution> GetMusicResolutions();
+        IEnumerable<HealthResolution> GetHealthResolutions();
+        IEnumerable<CodingResolution> GetCodingResolutions();
+        IEnumerable<LanguageResolution> GetLanguageResolutions();
     }
 }

@@ -6,5 +6,7 @@
 
         public string ResolutionTitle { get; set; }
 
+        public bool ResolutionIsComplete { get; set; }
+
     }
 }

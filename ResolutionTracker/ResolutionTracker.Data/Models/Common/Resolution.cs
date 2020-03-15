@@ -16,10 +16,10 @@ namespace ResolutionTracker.Data.Models.Common
 
         public string Description { get; set; }
 
-        //public string ImageUrl { get; set; }
-
         [Required]
         public DateTime Deadline { get; set; }
+
+        public bool IsComplete { get; set; }
 
         public DateTime DateCompleted { get; set; }
 

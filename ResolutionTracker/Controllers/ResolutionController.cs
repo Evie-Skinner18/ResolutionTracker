@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using ResolutionTracker.Data.Models;
 using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Services.Common;
 using ResolutionTracker.ViewModels;
 
 namespace ResolutionTracker.Controllers
@@ -20,20 +22,8 @@ namespace ResolutionTracker.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // first step is to tell our service to grab all the resolutions from the DB
-            var allResolutions = _resolutionService.GetAllResolutions().ToList();
-
-            // next step is to translate each resolution object into an instance of the view model
-            var allResolutionViewObjects = allResolutions
-                .Select(r => new ResolutionIndexListingModel()
-                {
-                    ResolutionId = r.Id.ToString(),
-                    ResolutionTitle = r.Title
-                });
-
-            // put his list of view objects inside an instance of ResolutionIndexModel
-            var resolutionIndexObject = new ResolutionIndexModel() { Resolutions = allResolutionViewObjects };
-
+            // have the service get what we need
+            var resolutionIndexObject = _resolutionService.GetResolutionIndexObject();
             // then we pass this ResolutionIndexModel to the view
             return View(resolutionIndexObject);
         }
@@ -42,30 +32,8 @@ namespace ResolutionTracker.Controllers
         [HttpGet]
         public IActionResult Detail(int id)
         {
-            var currentResolution = _resolutionService.GetResolutionById(id);
-            var currentResolutionType = _resolutionService.GetResolutionType(id);
-            var currentResolutionHealthArea = _resolutionService.GetHealthArea(id);
-            
-
-            var resolutionDetailObject = new ResolutionDetailModel()
-            {
-                ResolutionId = currentResolution.Id.ToString(),
-                ResolutionTitle = currentResolution.Title,
-                ResolutionDescription = currentResolution.Description,
-                ResolutionDeadline = currentResolution.Deadline.ToShortDateString(),
-                ResolutionType = _resolutionService.GetResolutionType(id),
-                PercentageCompletion = currentResolution.PercentageCompleted.ToString(),
-                PercentageLeft = (100 - currentResolution.PercentageCompleted).ToString(),
-                DateCompleted = currentResolution.DateCompleted.ToShortDateString(),
-                MusicGenre = _resolutionService.GetMusicGenre(id),
-                MusicalInstrument = _resolutionService.GetInstrument(id),
-                HealthArea = _resolutionService.GetHealthArea(id).ToLower(),
-                CodingTechnology = _resolutionService.GetTechnology(id),
-                Language = _resolutionService.GetLanguage(id),
-                LanguageSkill = _resolutionService.GetSkill(id).ToLower()
-            };
-
-            return View(resolutionDetailObject);
+            var currentResolutionDetailObject = _resolutionService.GetResolutionDetailObject(id);           
+            return View(currentResolutionDetailObject);
         }
 
         // GET returns the default Create view which is the form
@@ -77,84 +45,60 @@ namespace ResolutionTracker.Controllers
 
         //   POST (how to protect against over posting attack?)
         // also make sure you sanitise the user inputs
-        // this method is far too long
+        // to-do: add calendar to date input
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ResolutionCreateModel newResolution)
+        public IActionResult Create(ResolutionCreateModel newViewResolution)
         {
-
-            // to-do: add calendar to date input
-            // to-do: need to auto-increment the entries in the DB from where the seed data left off. Atm you cannot actually post a
-            // new resolution to the DB because Postgres complaining about duplicate primary keys.
-            var percentageWithoutPercentageSign = newResolution.RemovePercentageSign();
-
-            // make sure the object being passed is actually there. Right now it's NULL
-            if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("music"))
+            if (ModelState.IsValid)
             {
-                var musicResolutionForDatabase = new MusicResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    MusicGenre = newResolution.MusicGenre,
-                    Instrument = newResolution.MusicalInstrument
-                };
-
-                _resolutionService.AddResolution(musicResolutionForDatabase);
-                return RedirectToAction("Index");        
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("health"))
-            {
-                var healthResolutionForDatabase = new HealthResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    HealthArea = newResolution.HealthArea
-                };
-
-                _resolutionService.AddResolution(healthResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("coding"))
-            {
-                var codingResolutionForDatabase = new CodingResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    Technology = newResolution.CodingTechnology
-                };
-
-                _resolutionService.AddResolution(codingResolutionForDatabase);
-                return RedirectToAction("Index");
-            }
-            else if (ModelState.IsValid && newResolution.ResolutionType.ToLower().Equals("language"))
-            {
-                var languageResolutionForDatabase = new LanguageResolution()
-                {
-                    Title = newResolution.ResolutionTitle,
-                    Description = newResolution.ResolutionDescription,
-                    Deadline = DateTime.Parse(newResolution.ResolutionDeadline),
-                    PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign),
-                    Language = newResolution.Language,
-                    Skill = newResolution.LanguageSkill
-                };
-
-                _resolutionService.AddResolution(languageResolutionForDatabase);
+                var resolutionToAdd = _resolutionService.GetResolutionFromUserInput(newViewResolution);
+                _resolutionService.CreateResolution(resolutionToAdd);
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(newResolution);
+                return View(newViewResolution);
             }
         }
 
-        
+        // update
+        // GET returns the default Edit view which is again the form
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            // get resolution to edit
+            var viewResolutionToEdit = _resolutionService.GetResolutionEditObject(id);
 
-        // update and delete routes
+            return viewResolutionToEdit == null ? View(new NotFoundResult()) : View(viewResolutionToEdit);
+        }
+
+        // UPDATE corresponds to Put. Put means you submit the whole object again when you update; Patch means you submit only certain deetz
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, ResolutionEditModel viewResolutionToEdit)
+        {
+            // finish this Put method
+            if (ModelState.IsValid)
+            {
+                //reassign the values of the resolution's properties with the values we've received
+                // in the view model
+                var resolutionToUpdate = _resolutionService.GetResolutionToEdit(id, viewResolutionToEdit);
+                _resolutionService.EditResolution(resolutionToUpdate);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(viewResolutionToEdit);
+            }
+        }
+
+
+
+
+
+
+
+        //delete routes
     }
 }

@@ -1,20 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using dotenv.net;
 using dotenv.net.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ResolutionTracker.Data;
-using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Data.DataAccess;
+using ResolutionTracker.Data.DataAccess.Common;
 using ResolutionTracker.Services;
+using ResolutionTracker.Services.Common;
 
 namespace ResolutionTracker
 {
@@ -48,9 +46,10 @@ namespace ResolutionTracker
 
             // add any new services in the service layer here
             services.AddSingleton(Configuration);
-            // this service will get injected into the relevant controller when it asks for the IResolutionService interface
+            // each service will get injected into the relevant controller when it asks for the interface
             services.AddScoped<IResolutionService, ResolutionService>();
-
+            services.AddScoped<IResolutionReader, ResolutionReader>();
+            services.AddScoped<IResolutionWriter, ResolutionWriter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

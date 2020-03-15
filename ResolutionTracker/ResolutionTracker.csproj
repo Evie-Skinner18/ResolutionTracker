@@ -4,11 +4,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,5 +26,10 @@
     <Folder Include="ResolutionTracker.Data\Models\Common\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Resolution\" />
+    <Folder Include="ResolutionTracker.Services\Common\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="ViewModels\Common\" />
+    <Folder Include="ResolutionTracker.Data\DataAccess\" />
+    <Folder Include="ResolutionTracker.Data\DataAccess\Common\" />
   </ItemGroup>
 </Project>

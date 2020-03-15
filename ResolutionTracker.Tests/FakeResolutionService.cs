@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using ResolutionTracker.Data.Models.Common;
+using ResolutionTracker.Services.Common;
+using ResolutionTracker.ViewModels;
 
 namespace ResolutionTracker.Tests
 {
-    public class FakeResolutionService : IResolutionService
+    public class FakeResolutionReaderService : IResolutionReaderService
     {
-        public void AddResolution(Resolution newResolution)
-        {
-            throw new NotImplementedException();
-        }
-
+     
         public IEnumerable<Resolution> GetAllResolutions()
         {
             throw new NotImplementedException();
@@ -57,6 +55,11 @@ namespace ResolutionTracker.Tests
         }
 
         public Resolution GetResolutionById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Resolution GetResolutionFromUserInput(ResolutionCreateModel resolution)
         {
             throw new NotImplementedException();
         }

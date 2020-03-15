@@ -1,6 +1,6 @@
-﻿namespace ResolutionTracker.ViewModels
+﻿namespace ResolutionTracker.ViewModels.Common
 {
-    public class ResolutionDetailModel
+    public abstract class ResolutionChangeModel
     {
         public string ResolutionId { get; set; }
 
@@ -13,12 +13,6 @@
         public string ResolutionType { get; set; }
 
         public string PercentageCompletion { get; set; }
-
-        public string PercentageLeft { get; set; }
-
-        public bool ResolutionIsComplete { get; set; }
-
-        public string DateCompleted { get; set; }
 
         public string MusicGenre { get; set; }
 

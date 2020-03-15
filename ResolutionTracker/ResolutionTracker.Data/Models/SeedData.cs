@@ -25,6 +25,7 @@ namespace ResolutionTracker.Data.Models
                         MusicGenre = "Heavy metal",
                         Description = "Lamb of God are going on tour in the spring because they have a new album out. Get in!",
                         Deadline = DateTime.Parse("31/12/2020"),
+                        IsComplete = false,
                         PercentageCompleted = 0
                     },
 
@@ -34,6 +35,7 @@ namespace ResolutionTracker.Data.Models
                         HealthArea = "Eyes",
                         Description = "This will help you get more into swimming if you can see where you're going!",
                         Deadline = DateTime.Parse("30/04/2020"),
+                        IsComplete = false,
                         PercentageCompleted = 0
                     },
 
@@ -43,6 +45,7 @@ namespace ResolutionTracker.Data.Models
                         Technology = "C#",
                         Description = "This will be a good opportunity to contribute to a real open source project",
                         Deadline = DateTime.Parse("31/12/2020"),
+                        IsComplete = false,
                         PercentageCompleted = 0
                     },
 
@@ -53,6 +56,7 @@ namespace ResolutionTracker.Data.Models
                         Skill = "Speaking",
                         Description = "Learn to have a conversation in Dutch, to prepare for JSNation conference",
                         Deadline = DateTime.Parse("01/06/2020"),
+                        IsComplete = false,
                         PercentageCompleted = 0
                     }
                 );
