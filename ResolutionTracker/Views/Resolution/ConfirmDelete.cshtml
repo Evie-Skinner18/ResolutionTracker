@@ -1,17 +1,17 @@
-﻿    @model ResolutionTracker.ViewModels.ResolutionDetailModel
+﻿@model ResolutionTracker.ViewModels.ResolutionDetailModel
 
 @{
-    ViewData["Title"] = $"{Model.ResolutionTitle}";
+    ViewData["Title"] = $"Delete {Model.ResolutionTitle}";
 }
 
-<h1 class="light-green">@Model.ResolutionTitle</h1>
+<h1 class="light-green">Aer you sure you want to delete @Model.ResolutionTitle?</h1>
 <div class="progress">
     <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: @Model.PercentageCompletion%" aria-valuenow="{@Model.PercentageCompletion}" aria-valuemin="0" aria-valuemax="100">@Model.PercentageCompletion%</div>
 </div>
-<hr class="white-background"/>
+<hr class="white-background" />
 <div class="main-details">
     <p>@Model.ResolutionDescription</p>
-    <p>Category: @Model.ResolutionType</p>  
+    <p>Category: @Model.ResolutionType</p>
     @{
         if (Model.ResolutionType.ToLower().Equals("music"))
         {
@@ -36,7 +36,6 @@
             <p>Percentage left to complete by @Model.ResolutionDeadline: @Model.PercentageLeft%</p>
         }
     }
-    <a asp-action="Edit" asp-route-id="@Model.ResolutionId">Edit</a>
-    <a asp-action="ConfirmDelete" asp-route-id="@Model.ResolutionId">Delete</a>
+    <a asp-action="Delete" asp-route-id="@Model.ResolutionId">Delete</a>
 </div>
 <a class="btn btn-lg btn-info" asp-controller="Resolution" asp-action="Index">Back to all resolutions</a>

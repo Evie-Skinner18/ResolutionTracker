@@ -10,9 +10,6 @@ namespace ResolutionTracker.Services.Common
     {
         string GetResolutionType(int id);
 
-        
-        
-
         // logic to decide what type of resolution this is
         Resolution GetResolutionFromUserInput(ResolutionChangeModel resolution);
         Resolution GetResolutionToEdit(int id, ResolutionEditModel resolution);
@@ -34,6 +31,8 @@ namespace ResolutionTracker.Services.Common
         void EditResolution(Resolution resolution);
 
         // Delete
+        Resolution GetResolutionToRemove(int id);
+        void RemoveResolution(Resolution resolution);
 
     }
 }

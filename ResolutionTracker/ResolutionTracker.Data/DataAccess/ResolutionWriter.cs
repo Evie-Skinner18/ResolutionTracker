@@ -25,5 +25,11 @@ namespace ResolutionTracker.Data.DataAccess
             _resolutionTrackerContext.Entry(resolutionToUpdate).State = EntityState.Modified;
             _resolutionTrackerContext.SaveChanges();
         }
+
+        public void DeleteResolution(Resolution resolutionToDelete)
+        {
+            _resolutionTrackerContext.Remove(resolutionToDelete);
+            _resolutionTrackerContext.SaveChanges();
+        }
     }
 }

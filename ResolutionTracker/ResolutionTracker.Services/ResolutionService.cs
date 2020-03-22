@@ -259,5 +259,22 @@ namespace ResolutionTracker.Services
 
             return viewResolutionToEdit;
         }
+
+        public Resolution GetResolutionToRemove(int id)
+        {
+            return _resolutionReader.GetResolutionById(id);
+        }
+
+        public void RemoveResolution(Resolution resolution)
+        {
+            if (resolution != null)
+            {
+                _resolutionWriter.DeleteResolution(resolution);
+            }
+            else
+            {
+                throw new ArgumentNullException("The resolution you're trying to delete is null :<");
+            }
+        }
     }
 }

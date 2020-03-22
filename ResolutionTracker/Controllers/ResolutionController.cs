@@ -69,7 +69,6 @@ namespace ResolutionTracker.Controllers
         {
             // get resolution to edit
             var viewResolutionToEdit = _resolutionService.GetResolutionEditObject(id);
-
             return viewResolutionToEdit == null ? View(new NotFoundResult()) : View(viewResolutionToEdit);
         }
 
@@ -93,12 +92,22 @@ namespace ResolutionTracker.Controllers
             }
         }
 
+        // you need to GET the one to delete first
+        [HttpGet]
+        public IActionResult ConfirmDelete(int id)
+        {
+            // get details of resolution to delete and show view that asks the user are you sure?
+            var detailResolutionToDelete = _resolutionService.GetResolutionDetailObject(id);
+            return detailResolutionToDelete == null ? View(new NotFoundResult()) : View(detailResolutionToDelete);
+        }
 
+        [HttpPost, ActionName("Delete")]
+        public IActionResult Delete(int id)
+        {
+            var resolutionToDelete = _resolutionService.GetResolutionToRemove(id);
+            _resolutionService.RemoveResolution(resolutionToDelete);
 
-
-
-
-
-        //delete routes
+            return RedirectToAction("Index");
+        }
     }
 }

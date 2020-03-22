@@ -6,6 +6,7 @@ namespace ResolutionTracker.Data.DataAccess.Common
     public interface IResolutionWriter
     {
         void AddResolution(Resolution newResolution);
-        void UpdateResolution(Resolution resolutionToUpdate);   
+        void UpdateResolution(Resolution resolutionToUpdate);
+        void DeleteResolution(Resolution resolutionToDelete);
     }
 }
