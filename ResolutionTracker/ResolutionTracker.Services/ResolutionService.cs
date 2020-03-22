@@ -31,7 +31,8 @@ namespace ResolutionTracker.Services
                 .Select(r => new ResolutionIndexListingModel()
                 {
                     ResolutionId = r.Id.ToString(),
-                    ResolutionTitle = r.Title
+                    ResolutionTitle = r.Title,
+                    ResolutionIsComplete = r.IsComplete
                 });
 
             // put this list of view objects inside an instance of ResolutionIndexModel
@@ -172,12 +173,14 @@ namespace ResolutionTracker.Services
             var languageResolutions = _resolutionReader.GetLanguageResolutions().Where(l => l.Id.Equals(id));
 
             var percentageWithoutPercentageSign = viewResolution.PercentageCompletion.RemovePercentageSign();
-            var dateCompleted = viewResolution.ResolutionIsComplete ? DateTime.Parse(viewResolution.ResolutionDateCompleted) : resolutionToEdit.DateCompleted;
+            var isComplete = viewResolution.ResolutionIsComplete ? true : false;
+            var dateCompleted = isComplete ? DateTime.Now : resolutionToEdit.DateCompleted;
 
             // general properties that we can update regardless of specific type
             resolutionToEdit.Title = viewResolution.ResolutionTitle;
             resolutionToEdit.Description = viewResolution.ResolutionDescription;
             resolutionToEdit.Deadline = DateTime.Parse(viewResolution.ResolutionDeadline);
+            resolutionToEdit.IsComplete = isComplete;
             resolutionToEdit.DateCompleted = dateCompleted;
             resolutionToEdit.PercentageCompleted = Int32.Parse(percentageWithoutPercentageSign);
 

@@ -24,6 +24,11 @@ namespace ResolutionTracker.Data.DataAccess
             return _resolutionTrackerContext.Resolutions;
         }
 
+        public IEnumerable<Resolution> GetCompletedResolutions()
+        {
+            return _resolutionTrackerContext.Resolutions.Where(r => r.IsComplete);
+        }
+
         public Resolution GetResolutionById(int id)
         {
             return _resolutionTrackerContext.Resolutions

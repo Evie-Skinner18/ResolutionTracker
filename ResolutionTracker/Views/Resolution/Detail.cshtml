@@ -1,4 +1,4 @@
-﻿@model ResolutionTracker.ViewModels.ResolutionDetailModel
+﻿    @model ResolutionTracker.ViewModels.ResolutionDetailModel
 
 @{
     ViewData["Title"] = $"{Model.ResolutionTitle}";
@@ -11,7 +11,7 @@
 <hr class="white-background"/>
 <div class="main-details">
     <p>@Model.ResolutionDescription</p>
-    <p>Category: @Model.ResolutionType</p>
+    <p>Category: @Model.ResolutionType</p>  
     @{
         if (Model.ResolutionType.ToLower().Equals("music"))
         {

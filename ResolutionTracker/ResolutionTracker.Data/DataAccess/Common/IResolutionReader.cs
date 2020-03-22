@@ -11,6 +11,7 @@ namespace ResolutionTracker.Data.DataAccess.Common
     public interface IResolutionReader
     {
         IEnumerable<Resolution> GetAllResolutions();
+        IEnumerable<Resolution> GetCompletedResolutions();
         Resolution GetResolutionById(int id);
 
         // details for any kind of resolution

@@ -5,7 +5,7 @@
 }
 
     <div class="resolution-form light-yellow">
-        <h1>Edit @Model.ResolutionTitle.  Id is @Model.ResolutionId</h1>
+        <h1>Edit @Model.ResolutionTitle</h1>
         @Html.HiddenFor(Model => Model.ResolutionId)
     <form asp-action="Edit" method="POST" asp-route-id="@Model.ResolutionId">
         <div class="form-group">
@@ -21,14 +21,6 @@
             <p>Is this resolution complete?</p>
             <input type="checkbox" name="ResolutionIsComplete" class="form-control" asp-for="ResolutionIsComplete">
         </div>
-        @{
-            if (Model.ResolutionIsComplete)
-            {
-                <div class="form-group">
-                    <input type="text" name="ResolutionDateCompleted" class="form-control" placeholder="Date Completed" asp-for="ResolutionDateCompleted">
-                </div>  
-            }
-        }
         <div class="form-group">
             <select name="ResolutionType" class="form-control" asp-for="ResolutionType">
                 <option selected disabled>Select resolution type...</option>

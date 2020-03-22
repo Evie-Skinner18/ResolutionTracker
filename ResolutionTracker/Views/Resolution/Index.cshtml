@@ -2,12 +2,14 @@
 
 @{
     ViewData["Title"] = "All Resolutions";
+    var completedResolutions = Model.Resolutions.Where(r => r.ResolutionIsComplete);
+    var numberOfCompletedResolutions = completedResolutions.Count();
 }
 
 <div class="row title-section">
     <div class="col-lg-12 light-green">
         <h2>Evie's New Year's Resolutions 2020</h2>
-        <h3>The date is @DateTime.Now</h3>
+        <h3>The date is @DateTime.Now.ToShortDateString(). So far, you have completed @numberOfCompletedResolutions resolutions!</h3>
     </div>
 </div>
 <div class="row text-center">
@@ -16,7 +18,16 @@
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail resolution-square">
                 <div class="caption">
-                    <h4 class="light-yellow">@resolution.ResolutionTitle</h4>
+                    @{
+                        if (resolution.ResolutionIsComplete)
+                        {
+                            <h4 class="light-green">@resolution.ResolutionTitle</h4>
+                        }
+                        else
+                        {
+                            <h4 class="light-yellow">@resolution.ResolutionTitle</h4>
+                        }
+                    }
                     <a asp-controller="Resolution" asp-action="Detail" asp-route-id="@resolution.ResolutionId" class="btn btn-primary">More Info</a>
                 </div>
             </div>
